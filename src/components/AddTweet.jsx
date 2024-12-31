@@ -9,13 +9,17 @@ function AddTweet() {
     const userData = useSelector(state => state.auth.userData)
     // const navigate = useNavigate();
 
+    const d = new Date()
+    const time = d.toLocaleTimeString()
+    const date = d.toLocaleDateString()
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const post = appwriteService.createTweet({
                 content: tweet,
                 userId: userData.$id,
-                timestamp: Date.now()
+                timestamp: time + ' ' + date
             });
             if (post) {
                 // navigate(`/tweet/${post.$id}`);

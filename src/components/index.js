@@ -6,5 +6,6 @@ import Login from "./Login";
 import Input from "./Input";
 import Signup from "./Signup";
 import AddTweet from "./AddTweet";
+import TweetCard from "./TweetCard";
 
-export { Header, Footer, Container, Button, Login, Input, Signup, AddTweet };
+export { Header, Footer, Container, Button, Login, Input, Signup, AddTweet, TweetCard };
