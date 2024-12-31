@@ -1,8 +1,12 @@
 import './App.css'
+import { AddTweet, Header, Login, Signup } from './components/index'
 
 function App() {
 	return (
-		<h1>hello</h1>
+		<div className='text-white'>
+			{/* <Header /> */}
+			<AddTweet/>
+		</div>
 	)
 }
 
