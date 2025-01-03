@@ -11,7 +11,7 @@ function Signup() {
     const [name, setName] = useState('')
 
     const dispatch = useDispatch()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,7 +21,7 @@ function Signup() {
                 const userData = await authService.getCurrentUser();
                 if (userData){
                     dispatch(storeLogin(userData));
-                    // navigate('/');
+                    navigate('/');
                 }
             } else{
                 alert('Something went wrong!')
@@ -50,6 +50,7 @@ function Signup() {
                     />
                     <Input
                         label='Password'
+                        type='password'
                         placeholder='Enter your password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
