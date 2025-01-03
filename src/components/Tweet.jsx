@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import appwriteService from '../appwrite/config'
+import { useSelector } from 'react-redux';
+import { Button } from '../components'
 
 function Tweet() {
     const [tweet, setTweet] = useState(null);
     const [loading, setLoading] = useState(true);
     const { slug } = useParams();
+    const userData = useSelector(state => state.auth.userData);
+    const isAuthor = tweet && userData ? tweet.userId === userData.$id : false;
+    const navigate = useNavigate()
 
     useEffect(() => {
         appwriteService.getTweet(slug)
@@ -16,6 +21,15 @@ function Tweet() {
             .finally(() => setLoading(false));
     }, []);
 
+    const handleDelete = () => {
+        appwriteService.deleteTweet(tweet.$id)
+            .then((status) => {
+                if (status) {
+                    navigate('/')
+                }
+            })
+    }
+
     return loading ? <h1>Loading...</h1>
         : tweet ? (
             <div className='bg-blue-700'>
@@ -25,6 +39,16 @@ function Tweet() {
                 <div>
                     <p>{tweet.timestamp}</p>
                 </div>
+                {
+                    isAuthor ? (
+                        <Button
+                            className='text-xs'
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </Button>
+                    ) : null
+                }
             </div>
         ) : <h1>Tweet unavalibale</h1>
 }
