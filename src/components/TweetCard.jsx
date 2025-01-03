@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 function TweetCard({$id, content, timestamp}) {
     return (
         <Link to={`/tweet/${$id}`}>
-            <div className='bg-blue-700'>
+            <div className='bg-blue-700 m-2'>
                 <div>
                     <h3>{content}</h3>
                 </div>

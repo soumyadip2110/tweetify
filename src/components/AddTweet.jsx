@@ -22,9 +22,6 @@ function AddTweet() {
                 timestamp: time + ' ' + date
             });
             if (post) {
-                console.log('post: ', post);
-                console.log('$id: ', post.$id);
-                
                 navigate(`/tweet/${post.$id}`);
             }
         } catch (error) {
