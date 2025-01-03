@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Input, TweetCard } from './index'
+import { Button, Input } from './index'
 import authService from '../appwrite/auth'
 import { login as storeLogin } from '../store/authSlice'
 import { useDispatch } from 'react-redux'
@@ -10,7 +10,7 @@ function Login() {
     const [password, setPassword] = useState('')
 
     const dispatch = useDispatch()
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,9 +18,9 @@ function Login() {
             const session = await authService.login({email, password});
             if (session){
                 const userData = await authService.getCurrentUser();
-                if (userData){
+                if (userData){                    
                     dispatch(storeLogin(userData));
-                    // navigate('/');
+                    navigate('/');
                 }
             } else{
                 alert('Wrong Email or Password')
@@ -43,6 +43,7 @@ function Login() {
                     />
                     <Input
                         label='Password'
+                        type='password'
                         placeholder='Enter your password'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}

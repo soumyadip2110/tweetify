@@ -26,7 +26,7 @@ function Header() {
         },
         {
             name: 'Add Tweet',
-            slug: '/addTweet',
+            slug: '/add-tweet',
             active: authStatus
         }
     ];

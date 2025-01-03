@@ -16,7 +16,7 @@ export class AuthService {
         try {
             const userAccount = await this.account.create(ID.unique(), email, password, name);
             if (userAccount){
-                this.login({email, password})
+                return this.login({email, password})
             } else{
                 return userAccount;
             }
@@ -27,9 +27,9 @@ export class AuthService {
 
     async login({email, password}){
         try {
-            return await account.createEmailPasswordSession(email, password);
+            return await this.account.createEmailPasswordSession(email, password);
         } catch (error) {
-            console.log('Wrong Email or Password');
+            console.log('Wrong Email or Password', error);
         }
     }
 
@@ -47,6 +47,7 @@ export class AuthService {
         } catch (error) {
             console.log('USER NOT FOUND');
         }
+        return null;
     }
 }
 

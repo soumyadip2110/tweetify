@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 
 function AddTweet() {
     const [tweet, setTweet] = useState('');
-    const userData = useSelector(state => state.auth.userData)
-    // const navigate = useNavigate();
+    const userData = useSelector((state) => state.auth.userData)
+    const navigate = useNavigate();
 
     const d = new Date()
     const time = d.toLocaleTimeString()
@@ -15,14 +15,17 @@ function AddTweet() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const post = appwriteService.createTweet({
+        try {            
+            const post = await appwriteService.createTweet({
                 content: tweet,
                 userId: userData.$id,
                 timestamp: time + ' ' + date
             });
             if (post) {
-                // navigate(`/tweet/${post.$id}`);
+                console.log('post: ', post);
+                console.log('$id: ', post.$id);
+                
+                navigate(`/tweet/${post.$id}`);
             }
         } catch (error) {
             console.log(error);

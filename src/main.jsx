@@ -4,7 +4,7 @@ import App from './App.jsx'
 import {Provider} from 'react-redux'
 import store from './store/store.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { AddTweet, Home, Login, Signup } from './pages/index.js'
+import { AddTweet, Home, Login, Signup, Tweet } from './pages/index.js'
 
 const router = createBrowserRouter([
 	{
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
 				path: '/add-tweet',
 				element: <AddTweet />
 			},
+			{
+				path: '/tweet/:slug',
+				element: <Tweet />
+			}
 		]
 	}
 ])

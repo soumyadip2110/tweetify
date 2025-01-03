@@ -14,7 +14,7 @@ export class Service{
 
     async createTweet({content, userId, timestamp}){
         try {
-            return await databases.createDocument(
+            return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 ID.unique(),
@@ -32,7 +32,7 @@ export class Service{
 
     async likePost({id, likeCount}){
         try {
-            await databases.updateDocument(
+            await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 id,
@@ -47,7 +47,7 @@ export class Service{
 
     async getLikes(id){
         try {
-            return await databases.getDocument(
+            return await this.databases.getDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
                 id,
@@ -57,6 +57,18 @@ export class Service{
             );
         } catch (error) {
             console.log('Appwrite service :: getLikes :: error', error);
+        }
+    }
+
+    async getTweet(slug){
+        try {
+            return await this.databases.getDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                slug
+            );
+        } catch (error) {
+            console.log('Appwrite service :: getTweets :: error', error);
         }
     }
 
