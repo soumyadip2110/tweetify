@@ -8,5 +8,6 @@ import Signup from "./Signup";
 import AddTweet from "./AddTweet";
 import TweetCard from "./TweetCard";
 import Tweet from "./Tweet";
+import AuthLayout from './AuthLayout'
 
-export { Header, Footer, Container, Button, Login, Input, Signup, AddTweet, TweetCard, Tweet };
+export { Header, Footer, Container, Button, Login, Input, Signup, AddTweet, TweetCard, Tweet, AuthLayout };

@@ -5,6 +5,7 @@ import {Provider} from 'react-redux'
 import store from './store/store.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { AddTweet, Home, Login, Signup, Tweet } from './pages/index.js'
+import { AuthLayout } from './components/index.js'
 
 const router = createBrowserRouter([
 	{
@@ -17,19 +18,35 @@ const router = createBrowserRouter([
 			},
 			{
 				path: '/login',
-				element: <Login />
+				element: (
+					<AuthLayout authentication={false}>
+						<Login />
+					</AuthLayout>
+				) 
 			},
 			{
 				path: '/signup',
-				element: <Signup />
+				element: (
+					<AuthLayout authentication={false}>
+						<Signup />
+					</AuthLayout>
+				)
 			},
 			{
 				path: '/add-tweet',
-				element: <AddTweet />
+				element: (
+					<AuthLayout authentication>
+						<AddTweet />
+					</AuthLayout>
+				)
 			},
 			{
 				path: '/tweet/:slug',
-				element: <Tweet />
+				element: (
+					<AuthLayout authentication>
+						<Tweet />
+					</AuthLayout>
+				)
 			}
 		]
 	}
