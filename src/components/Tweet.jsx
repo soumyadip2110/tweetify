@@ -11,15 +11,29 @@ function Tweet() {
     const userData = useSelector(state => state.auth.userData);
     const isAuthor = tweet && userData ? tweet.userId === userData.$id : false;
     const navigate = useNavigate()
+    const [likeCount, setLikeCount] = useState(0)
 
     useEffect(() => {
         appwriteService.getTweet(slug)
             .then((tweet) => {
                 setTweet(tweet);
+                appwriteService.getLikes(tweet.$id)
+                    .then((likes) => setLikeCount(likes))
+                    .catch((err) => console.log(err))
             })
             .catch((err) => console.log(err))
             .finally(() => setLoading(false));
     }, []);
+
+    const handleLikeUnlike = () => {
+        appwriteService.likeTweet({
+            tweetId: tweet.$id,
+            userId: userData.$id
+        })
+            .then((newLikeCount) => {
+                setLikeCount(newLikeCount);
+            })
+    }
 
     const handleDelete = () => {
         appwriteService.deleteTweet(tweet.$id)
@@ -27,16 +41,6 @@ function Tweet() {
                 if (status) {
                     navigate('/')
                 }
-            })
-    }
-
-    const handleLikeUnlike = () => {
-        appwriteService.likeTweet({
-            tweetId: tweet.$id,
-            userId: userData.$id
-        })
-            .then((response) => {
-                console.log('liked/unliked');
             })
     }
 
@@ -50,6 +54,9 @@ function Tweet() {
                     <p>{tweet.timestamp}</p>
                 </div>
                 <Button onClick={handleLikeUnlike}>Like/Unlike</Button>
+                <div>
+                    <h3>Likes: {likeCount}</h3>
+                </div>
                 {
                     isAuthor ? (
                         <Button
