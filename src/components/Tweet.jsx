@@ -30,6 +30,16 @@ function Tweet() {
             })
     }
 
+    const handleLikeUnlike = () => {
+        appwriteService.likeTweet({
+            tweetId: tweet.$id,
+            userId: userData.$id
+        })
+            .then((response) => {
+                console.log('liked/unliked');
+            })
+    }
+
     return loading ? <h1>Loading...</h1>
         : tweet ? (
             <div className='bg-blue-700'>
@@ -39,6 +49,7 @@ function Tweet() {
                 <div>
                     <p>{tweet.timestamp}</p>
                 </div>
+                <Button onClick={handleLikeUnlike}>Like/Unlike</Button>
                 {
                     isAuthor ? (
                         <Button
