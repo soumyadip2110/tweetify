@@ -127,20 +127,6 @@ export class Service {
             console.log('Appwrite service :: getLikes :: error', error);
         }
     }
-    // async getLikes(id) {
-    //     try {
-    //         return await this.databases.getDocument(
-    //             conf.appwriteDatabaseId,
-    //             conf.appwriteCollectionId,
-    //             id,
-    //             [
-    //                 Query.select(['likes'])
-    //             ]
-    //         );
-    //     } catch (error) {
-    //         console.log('Appwrite service :: getLikes :: error', error);
-    //     }
-    // }
 
     async getTweet(slug) {
         try {
@@ -165,17 +151,43 @@ export class Service {
         }
     }
 
-    async deleteTweet(id) {
+    async deleteTweet(tweetId) {
         try {
             await this.databases.deleteDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                id
+                tweetId
             );
+            try {
+                const likeDocs = await this.databases.listDocuments(
+                    conf.appwriteDatabaseId,
+                    conf.appwriteLikesCollectionId,
+                    [
+                        Query.equal('tweetId', [tweetId])
+                    ]
+                );
+                likeDocs.map((doc) => {
+                    this.deleteLikes(doc)
+                });
+            } catch (error) {
+                console.log('Appwrite service :: deleteTweet :: deleteLikes :: error', error);
+            }
             return true;
         } catch (error) {
             console.log('Appwrite service :: deleteTweet :: error', error);
             return false;
+        }
+    }
+
+    async deleteLikes(doc) {
+        try{
+            await this.databases.deleteDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteLikesCollectionId,
+                doc.$id
+            );
+        } catch (error) {
+            console.log('Appwrite service :: deleteLikes :: error', error);
         }
     }
 }
