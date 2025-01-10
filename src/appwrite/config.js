@@ -58,23 +58,7 @@ export class Service {
                     console.log('Appwrite service :: likeTweet :: createDocument :: error', error);
                 }
 
-                const likeCount = await this.getLikes(tweetId)
-
-                try {
-                    if (likeCount) {
-                        const doc = await this.databases.updateDocument(
-                            conf.appwriteDatabaseId,
-                            conf.appwriteCollectionId,
-                            tweetId,
-                            {
-                                likes: likeCount
-                            }
-                        );
-                        if (doc) return likeCount;
-                    }
-                } catch (error) {
-                    console.log('Appwrite service :: likeTweet :: updateDocument :: error', error);
-                }
+                return await this.updateLikes(tweetId);
             }
         } catch (error) {
             console.log('Appwrite service :: likeTweet :: error', error);
@@ -93,23 +77,23 @@ export class Service {
             console.log('Appwrite service :: unlikeTweet :: deleteDocument :: error', error);
         }
 
-        const likeCount = await this.getLikes(tweetId)
+        return await this.updateLikes(tweetId);
+    }
 
+    async updateLikes(tweetId) {
+        const likeCount = await this.getLikes(tweetId)
         try {
-            if (likeCount) {
-                await this.databases.updateDocument(
-                    conf.appwriteDatabaseId,
-                    conf.appwriteCollectionId,
-                    tweetId,
-                    {
-                        likes: likeCount
-                    }
-                );
-            }
-            return likeCount;
+            const doc = await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                tweetId,
+                {
+                    likes: likeCount
+                }
+            );
+            if (doc) return likeCount;
         } catch (error) {
-            console.log('Appwrite service :: unlikeTweet :: updateDocument :: error', error);
-            return false;
+            console.log('Appwrite service :: updateLikes :: error', error);
         }
     }
 
@@ -180,7 +164,7 @@ export class Service {
     }
 
     async deleteLikes(doc) {
-        try{
+        try {
             await this.databases.deleteDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteLikesCollectionId,
