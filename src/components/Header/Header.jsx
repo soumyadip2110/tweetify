@@ -6,6 +6,7 @@ import LogoutBtn from './LogoutBtn';
 
 function Header() {
     const authStatus = useSelector(state => state.auth.status);
+    const userData = useSelector(state => state.auth.userData);
     const navigate = useNavigate();
 
     const navItems = [
@@ -40,6 +41,11 @@ function Header() {
                             Tweet-App
                         </Link>
                     </div>
+                    {authStatus &&(
+                        <div className='mx-5 my-auto'>
+                            User: {userData.name}
+                        </div>
+                    )}
                     <ul className='flex ml-auto'>
                         {navItems.map(item =>
                             item.active ? (

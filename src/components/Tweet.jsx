@@ -12,30 +12,39 @@ function Tweet() {
     const isAuthor = tweet && userData ? tweet.userId === userData.$id : false;
     const navigate = useNavigate()
     const [likeCount, setLikeCount] = useState(0)
+    const [liked, setLiked] = useState(false)
+    const [updateLike, setUpdateLike] = useState(false)
+    const [likeLoading, setLikeLoading] = useState(true)
 
     useEffect(() => {
         appwriteService.getTweet(slug)
             .then((tweet) => {
                 setTweet(tweet);
-                appwriteService.getLikes(tweet.$id)
-                    .then((likes) => setLikeCount(likes))
-                    .catch((err) => console.log(err))
+                return appwriteService.getLikes(tweet.$id, true);
+            })
+            .then((likes) => {
+                setLikeCount(likes.length)
+                setLiked(likes.some(like => like.userId === userData.$id));
             })
             .catch((err) => console.log(err))
-            .finally(() => setLoading(false));
-    }, []);
+            .finally(() => {
+                setLoading(false)
+                setLikeLoading(false)
+            });
+    }, [slug, updateLike]);
 
     const handleLikeUnlike = () => {
+        setLikeLoading(true);
         appwriteService.likeTweet({
             tweetId: tweet.$id,
             userId: userData.$id
         })
-            .then((newLikeCount) => {
-                setLikeCount(newLikeCount);
-            })
+            .then(() => setUpdateLike(prev => !prev))
+            .catch(err => console.log(err));
     }
 
     const handleDelete = () => {
+        setLoading(true)
         appwriteService.deleteTweet(tweet.$id)
             .then((status) => {
                 if (status) {
@@ -53,9 +62,14 @@ function Tweet() {
                 <div>
                     <p>{tweet.timestamp}</p>
                 </div>
-                <Button onClick={handleLikeUnlike}>Like/Unlike</Button>
+                <Button
+                    onClick={handleLikeUnlike}
+                    disabled={likeLoading}
+                >
+                    {likeLoading ? 'Loading...' : liked ? 'Unlike' : 'Like'}
+                </Button>
                 <div>
-                    <h3>Likes: {likeCount}</h3>
+                    <h3>Likes: {likeLoading ? 'Loading...' : likeCount}</h3>
                 </div>
                 {
                     isAuthor ? (

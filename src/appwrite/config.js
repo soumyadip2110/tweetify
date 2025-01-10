@@ -97,7 +97,7 @@ export class Service {
         }
     }
 
-    async getLikes(tweetId, idRequired=false) {
+    async getLikes(tweetId, docRequired=false) {
         try {
             const likeDocs = await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
@@ -106,7 +106,7 @@ export class Service {
                     Query.equal('tweetId', [tweetId])
                 ]
             );
-            return idRequired ? likeDocs.documents : likeDocs.documents.length;
+            return docRequired ? likeDocs.documents : likeDocs.documents.length;
         } catch (error) {
             console.log('Appwrite service :: getLikes :: error', error);
         }
