@@ -9,5 +9,19 @@ import AddTweet from "./AddTweet";
 import TweetCard from "./TweetCard";
 import Tweet from "./Tweet";
 import AuthLayout from './AuthLayout'
+import LikeBtn from "./LikeBtn";
 
-export { Header, Footer, Container, Button, Login, Input, Signup, AddTweet, TweetCard, Tweet, AuthLayout };
+export {
+    Header,
+    Footer,
+    Container,
+    Button,
+    Login,
+    Input,
+    Signup,
+    AddTweet,
+    TweetCard,
+    Tweet,
+    AuthLayout,
+    LikeBtn
+};

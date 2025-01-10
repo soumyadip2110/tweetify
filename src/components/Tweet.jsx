@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import appwriteService from '../appwrite/config'
 import { useSelector } from 'react-redux';
-import { Button } from '../components'
+import { Button, LikeBtn } from '../components'
 
 function Tweet() {
     const [tweet, setTweet] = useState(null);
@@ -11,37 +11,19 @@ function Tweet() {
     const userData = useSelector(state => state.auth.userData);
     const isAuthor = tweet && userData ? tweet.userId === userData.$id : false;
     const navigate = useNavigate()
-    const [likeCount, setLikeCount] = useState(0)
-    const [liked, setLiked] = useState(false)
-    const [updateLike, setUpdateLike] = useState(false)
-    const [likeLoading, setLikeLoading] = useState(true)
+
 
     useEffect(() => {
         appwriteService.getTweet(slug)
             .then((tweet) => {
                 setTweet(tweet);
-                return appwriteService.getLikes(tweet.$id, true);
-            })
-            .then((likes) => {
-                setLikeCount(likes.length)
-                setLiked(likes.some(like => like.userId === userData.$id));
             })
             .catch((err) => console.log(err))
             .finally(() => {
                 setLoading(false)
-                setLikeLoading(false)
             });
-    }, [slug, updateLike]);
+    }, [slug]);
 
-    const handleLikeUnlike = () => {
-        setLikeLoading(true);
-        appwriteService.likeTweet({
-            tweetId: tweet.$id,
-            userId: userData.$id
-        })
-            .then(() => setUpdateLike(prev => !prev))
-            .catch(err => console.log(err));
-    }
 
     const handleDelete = () => {
         setLoading(true)
@@ -62,15 +44,7 @@ function Tweet() {
                 <div>
                     <p>{tweet.timestamp}</p>
                 </div>
-                <Button
-                    onClick={handleLikeUnlike}
-                    disabled={likeLoading}
-                >
-                    {likeLoading ? 'Loading...' : liked ? 'Unlike' : 'Like'}
-                </Button>
-                <div>
-                    <h3>Likes: {likeLoading ? 'Loading...' : likeCount}</h3>
-                </div>
+                <LikeBtn tweet={tweet} />
                 {
                     isAuthor ? (
                         <Button
