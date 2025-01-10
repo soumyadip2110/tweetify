@@ -97,7 +97,7 @@ export class Service {
         }
     }
 
-    async getLikes(tweetId) {
+    async getLikes(tweetId, idRequired=false) {
         try {
             const likeDocs = await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
@@ -106,7 +106,7 @@ export class Service {
                     Query.equal('tweetId', [tweetId])
                 ]
             );
-            return likeDocs.documents.length;
+            return idRequired ? likeDocs.documents : likeDocs.documents.length;
         } catch (error) {
             console.log('Appwrite service :: getLikes :: error', error);
         }
@@ -142,20 +142,10 @@ export class Service {
                 conf.appwriteCollectionId,
                 tweetId
             );
-            try {
-                const likeDocs = await this.databases.listDocuments(
-                    conf.appwriteDatabaseId,
-                    conf.appwriteLikesCollectionId,
-                    [
-                        Query.equal('tweetId', [tweetId])
-                    ]
-                );
-                likeDocs.map((doc) => {
-                    this.deleteLikes(doc)
-                });
-            } catch (error) {
-                console.log('Appwrite service :: deleteTweet :: deleteLikes :: error', error);
-            }
+            const likeDocs = await this.getLikes(tweetId, true)
+            likeDocs.map(async (doc) => {
+                await this.deleteLikes(doc)
+            });
             return true;
         } catch (error) {
             console.log('Appwrite service :: deleteTweet :: error', error);
