@@ -6,6 +6,7 @@ import { Button, LikeBtn } from '../components'
 
 function Tweet() {
     const [tweet, setTweet] = useState(null);
+    // const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const { slug } = useParams();
     const userData = useSelector(state => state.auth.userData);
@@ -17,6 +18,9 @@ function Tweet() {
         appwriteService.getTweet(slug)
             .then((tweet) => {
                 setTweet(tweet);
+                // if (tweet.featuredImage){
+                //     setImage(tweet.featuredImage)
+                // }
             })
             .catch((err) => console.log(err))
             .finally(() => {
@@ -30,6 +34,7 @@ function Tweet() {
         appwriteService.deleteTweet(tweet.$id)
             .then((status) => {
                 if (status) {
+                    appwriteService.deleteImage(tweet.featuredImage);
                     navigate('/')
                 }
             })
@@ -38,6 +43,12 @@ function Tweet() {
     return loading ? <h1>Loading...</h1>
         : tweet ? (
             <div className='bg-blue-700'>
+                {tweet.featuredImage &&
+                    <img
+                        src={appwriteService.getImagePreview(tweet.featuredImage)}
+                        alt={tweet.content}
+                    />
+                }
                 <div>
                     <h3>{tweet.content}</h3>
                 </div>
