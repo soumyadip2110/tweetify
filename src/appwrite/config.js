@@ -4,6 +4,7 @@ import conf from '../conf/conf'
 export class Service {
     client = new Client();
     databases;
+    bucket;
 
     constructor() {
         this.client
@@ -12,7 +13,7 @@ export class Service {
         this.databases = new Databases(this.client);
     }
 
-    async createTweet({ content, userId, timestamp }) {
+    async createTweet({ content, userId, timestamp, featuredImage = '' }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -22,7 +23,8 @@ export class Service {
                     content,
                     userId,
                     timestamp,
-                    likes: 0
+                    likes: 0,
+                    featuredImage
                 }
             );
         } catch (error) {
@@ -97,7 +99,7 @@ export class Service {
         }
     }
 
-    async getLikes(tweetId, docRequired=false) {
+    async getLikes(tweetId, docRequired = false) {
         try {
             const likeDocs = await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
@@ -163,6 +165,39 @@ export class Service {
         } catch (error) {
             console.log('Appwrite service :: deleteLikes :: error', error);
         }
+    }
+    // file upload/delete service
+
+    async uploadImage(file) {
+        try {
+            return await this.bucket.createFile(
+                conf.appwriteBucketId,
+                ID.unique(),
+                file
+            );
+        } catch (error) {
+            console.log('Appwrite service :: uploadImage :: error', error);
+        }
+    }
+
+    async deleteImage(fileId){
+        try {
+            await this.bucket.deleteFile(
+                conf.appwriteBucketId,
+                fileId
+            );
+            return true;
+        } catch (error) {
+            console.log('Appwrite service :: deleteImage :: error', error);
+            return false;
+        }
+    }
+
+    async getImagePreview(fileId){
+        return this.bucket.getFilePreview(
+            conf.appwriteBucketId,
+            fileId
+        );
     }
 }
 
