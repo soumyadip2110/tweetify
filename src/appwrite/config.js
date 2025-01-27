@@ -1,4 +1,4 @@
-import { Client, Databases, ID, Query } from "appwrite";
+import { Client, Databases, Storage, ID, Query } from "appwrite";
 import conf from '../conf/conf'
 
 export class Service {
@@ -11,6 +11,7 @@ export class Service {
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId);
         this.databases = new Databases(this.client);
+        this.bucket = new Storage(this.client);
     }
 
     async createTweet({ content, userId, timestamp, featuredImage = '' }) {
@@ -193,7 +194,7 @@ export class Service {
         }
     }
 
-    async getImagePreview(fileId){
+    getImagePreview(fileId){
         return this.bucket.getFilePreview(
             conf.appwriteBucketId,
             fileId
