@@ -15,7 +15,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const session = await authService.login({email, password});
+            const session = await authService.login({'email': email, 'password': password});
             if (session){
                 const userData = await authService.getCurrentUser();
                 if (userData){                    
