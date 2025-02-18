@@ -68,7 +68,8 @@ function AddTweet() {
                     {imagePreview && <img src={imagePreview} alt='image' height='300px' width='300px'/>}
                     <Button
                         type='submit'
-                        className='mt-2 hover:bg-blue-800'
+                        className={`mt-2 ${tweet.length > 0 ? 'hover:bg-blue-800' : 'bg-blue-900'}`}
+                        disabled={tweet.length === 0}
                     >
                         Tweet
                     </Button>
