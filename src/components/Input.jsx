@@ -9,7 +9,7 @@ function Input({
     return (
         <div>
             {label && 
-                <label className='inline-block mb-1 pl-1'>
+                <label className='inline-block mb-1 pl-1 text-black'>
                     {label}
                 </label>
             }
