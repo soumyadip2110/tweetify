@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import appwriteService from '../appwrite/config'
 import { useSelector } from 'react-redux';
-import { Button, LikeBtn } from '../components'
+import { Button, Container, LikeBtn } from './index'
 
 function Tweet() {
     const [tweet, setTweet] = useState(null);
@@ -38,33 +38,35 @@ function Tweet() {
 
     return loading ? <h1>Loading...</h1>
         : tweet ? (
-            <div className='bg-blue-700'>
-                {tweet.featuredImage &&
-                    <img
-                        src={appwriteService.getImagePreview(tweet.featuredImage)}
-                        alt={tweet.content}
-                        height='470px'
-                        width='670px'
-                    />
-                }
-                <div>
-                    <h3>{tweet.content}</h3>
+            <Container className='mt-[4rem]'>
+                <div className='bg-blue-700'>
+                    {tweet.featuredImage &&
+                        <img
+                            src={appwriteService.getImagePreview(tweet.featuredImage)}
+                            alt={tweet.content}
+                            height='470px'
+                            width='670px'
+                        />
+                    }
+                    <div>
+                        <h3>{tweet.content}</h3>
+                    </div>
+                    <div>
+                        <p>{tweet.timestamp}</p>
+                    </div>
+                    <LikeBtn tweet={tweet} />
+                    {
+                        isAuthor ? (
+                            <Button
+                                className='text-xs'
+                                onClick={handleDelete}
+                            >
+                                Delete
+                            </Button>
+                        ) : null
+                    }
                 </div>
-                <div>
-                    <p>{tweet.timestamp}</p>
-                </div>
-                <LikeBtn tweet={tweet} />
-                {
-                    isAuthor ? (
-                        <Button
-                            className='text-xs'
-                            onClick={handleDelete}
-                        >
-                            Delete
-                        </Button>
-                    ) : null
-                }
-            </div>
+            </Container>
         ) : <h1>Tweet unavalibale</h1>
 }
 
