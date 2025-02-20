@@ -33,17 +33,19 @@ function Header() {
     ];
 
     return (
-        <header className='py-2 m-0 top-0 border-b-2 border-white shadow-md shadow-gray-500 fixed w-full bg-[#060606]'>
+        <header className='py-2 m-0 top-0 fixed w-full bg-black drop-shadow-[0px_1px_2px_rgba(255,255,255,1)]'>
+        {/* <header className='py-2 m-0 top-0 border-b border-white shadow-sm shadow-gray-200 fixed w-full bg-[#060606]'> */}
             <Container>
                 <nav className='flex'>
-                    <div className='mx-5 my-auto text-xl font-bold text-[#687EFF] hover:text-white duration-200'>
+                    <div className='mx-5 my-auto text-xl font-bold bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 bg-clip-text text-transparent duration-200'>
+                    {/* <div className='mx-5 my-auto text-xl font-bold text-[#687EFF] hover:text-white duration-200'> */}
                         <Link to='/'>
                             Tweet-App
                         </Link>
                     </div>
                     {authStatus &&(
-                        <div className='mx-5 my-auto'>
-                            User: {userData.name}
+                        <div className='mx-5 my-auto font-bold text-xl'>
+                            Hello, {userData.name}!
                         </div>
                     )}
                     <ul className='flex ml-auto'>
@@ -52,8 +54,8 @@ function Header() {
                                 <li key={item.name}>
                                     <button
                                         onClick={() => navigate(item.slug)}
-                                        // className='inline-bock mx-2 my-1 px-5 py-1 duration-200 hover:bg-blue-100 hover:text-black rounded-full'
-                                        className='inline-bock mx-2 my-1 px-5 py-1 duration-200 font-bold text-[#687EFF] hover:text-white hover:bg-[#475dde] rounded-full'
+                                        className='inline-bock mx-2 my-1 px-5 py-1 duration-200 font-bold bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 bg-clip-text text-transparent hover:text-white'
+                                        // className='inline-bock mx-2 my-1 px-5 py-1 duration-200 font-bold text-[#687EFF] hover:text-white hover:bg-[#475dde] rounded-full'
                                     >
                                         {item.name}
                                     </button>

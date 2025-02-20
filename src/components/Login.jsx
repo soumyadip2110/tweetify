@@ -3,7 +3,7 @@ import { Button, Container, Input } from './index'
 import authService from '../appwrite/auth'
 import { login as storeLogin } from '../store/authSlice'
 import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
     const [email, setEmail] = useState('')
@@ -33,7 +33,7 @@ function Login() {
     return (
         <Container className='mt-[6rem] p-6'>
             <h1 className='text-2xl font-bold'>Login to your account</h1>
-            <form className='w-1/3 m-auto mt-6 flex flex-col justify-center p-6 bg-white bg-opacity-5 border hover:shadow-[0px_0px_6px_#fff] duration-200 rounded-xl h-full' onSubmit={handleSubmit}>
+            <form className='w-1/3 m-auto mt-6 flex flex-col justify-center p-6 bg-[#687EFF] bg-opacity-10 border hover:shadow-[0px_0px_6px_#fff] duration-200 rounded-xl h-full' onSubmit={handleSubmit}>
                 <div className='p-2'>
                     <Input
                         label='Email:'
@@ -58,7 +58,8 @@ function Login() {
                 <div className='p-1'>
                     <Button
                         type='submit'
-                        className='mt-2 hover:bg-[#687EFF] duration-200'
+                        className='mt-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500 duration-200'
+                        // className='mt-2 hover:bg-[#687EFF] duration-200'
                         bgColor='bg-[#475dde]'
                         >
                         Login
