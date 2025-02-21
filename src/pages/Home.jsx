@@ -28,7 +28,7 @@ function Home() {
     if (authStatus) {
         return loading ? <h1 className='text-white mt-[5rem]'>Loading...</h1>
             : tweets?.length > 0 ? (
-                <Container className='mt-[4rem]'>
+                <Container className='mt-[5rem]'>
                     {
                         tweets.map((tweet) => (
                             <div key={tweet.$id}>
@@ -41,7 +41,7 @@ function Home() {
                 : <h2 className='text-white'> No tweets available </h2>
     }
     return (
-        <Container className='mt-[6rem] p-12'>
+        <Container className='mt-[6rem] p-12 overflow-hidden'>
             <h1 className='text-5xl text-white'>Welcome to Tweet App</h1>
             <div className='text-lg mt-12'>
                 <h2>

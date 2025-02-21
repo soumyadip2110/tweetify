@@ -14,8 +14,8 @@ function AddTweet() {
     const navigate = useNavigate();
 
     const d = new Date()
-    const time = d.toLocaleTimeString()
-    const date = d.toLocaleDateString()
+    const date = d.toLocaleDateString('en-IN')
+    const time = d.toLocaleTimeString('en-IN')
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -28,7 +28,7 @@ function AddTweet() {
             const post = await appwriteService.createTweet({
                 content: tweet,
                 userId: userData.$id,
-                timestamp: time + ' - ' + date,
+                timestamp: date + ' - ' + time,
                 featuredImage: image ? file.$id : ''
             });
             if (post) {
@@ -60,7 +60,7 @@ function AddTweet() {
     };
 
     return (
-        <div className="mt-[5rem] max-w-2xl mx-auto bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 shadow-[0px_1px_4px_rgba(255,255,255,1)] rounded-xl p-8 space-y-6">
+        <div className="mt-[5rem] max-w-2xl mx-auto bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 shadow-[0px_1px_4px_rgba(255,255,255,1)] rounded-xl p-8 space-y-6">
             <h1 className="text-4xl font-extrabold text-white text-center mb-8">What's on Your Mind?</h1>
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Textarea */}

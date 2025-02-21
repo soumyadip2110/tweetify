@@ -32,7 +32,7 @@ function LikeBtn({ tweet }) {
     }
 
     return (
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2">
             <Button
                 onClick={handleLikeUnlike}
                 disabled={likeLoading}
@@ -42,7 +42,7 @@ function LikeBtn({ tweet }) {
                     `flex items-center justify-center rounded-full border transition duration-300 
                     ${
                         likeLoading ? 'bg-gray-300 cursor-not-allowed'
-                        : liked ? 'bg-white border-gray-200 hover:bg-gray-300'
+                        : liked ? 'bg-white border-gray-200 hover:bg-gray-400'
                         : 'bg-gray-400 border-gray-600 hover:bg-gray-500'
                     }`
                 }
@@ -63,7 +63,7 @@ function LikeBtn({ tweet }) {
             </Button>
 
             <div className="text-sm text-gray-300">
-                {likeLoading ? 'Please wait...' : likeCount}
+                {likeLoading ? '...' : likeCount}
             </div>
         </div>
     )

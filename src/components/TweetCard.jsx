@@ -5,11 +5,10 @@ import appwriteService from '../appwrite/config'
 
 function TweetCard(tweet) {
     return (
-        <div className="max-w-md mx-auto rounded-lg shadow-lg overflow-hidden my-4 shadow-[0px_1px_2px_rgba(255,255,255,1)]">
-        {/* <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg overflow-hidden my-4"> */}
+        <div className="w-1/2 mx-auto rounded-md shadow-lg overflow-hidden my-6 shadow-[0px_0px_2px_rgba(255,255,255,1)]">
+        {/* <div className="max-w-md mx-auto rounded-sm shadow-lg overflow-hidden my-6 shadow-[0px_0px_2px_rgba(255,255,255,1)]"> */}
             <Link to={`/tweet/${tweet.$id}`}>
-                <div className="p-4 transition duration-300 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500">
-                    
+                <div className="p-4 transition duration-300 bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 hover:from-purple-600 hover:via-indigo-600 hover:to-blue-600">
                     {tweet.featuredImage && (
                         <img
                             src={appwriteService.getImagePreview(tweet.featuredImage)}

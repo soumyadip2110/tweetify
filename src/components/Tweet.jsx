@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import appwriteService from '../appwrite/config'
 import { useSelector } from 'react-redux';
@@ -11,6 +11,7 @@ function Tweet() {
     const userData = useSelector(state => state.auth.userData);
     const isAuthor = tweet && userData ? tweet.userId === userData.$id : false;
     const navigate = useNavigate()
+    const [isImageOpen, setIsImageOpen] = useState(false);
 
 
     useEffect(() => {
@@ -24,6 +25,20 @@ function Tweet() {
             });
     }, [slug]);
 
+    const handleEscapeKey = useCallback((e) => {
+        if (e.key === 'Escape'){
+            setIsImageOpen(false)
+        }
+    }, [])
+    
+    useEffect(() => {
+        if (isImageOpen){
+            window.addEventListener('keyup', handleEscapeKey);
+        }
+        return () => {
+            window.removeEventListener('keyup', handleEscapeKey);
+        };
+    }, [isImageOpen, handleEscapeKey])
 
     const handleDelete = () => {
         setLoading(true)
@@ -38,35 +53,86 @@ function Tweet() {
 
     return loading ? <h1>Loading...</h1>
         : tweet ? (
-            <Container className='mt-[4rem]'>
-                <div className='bg-blue-700'>
-                    {tweet.featuredImage &&
+            <Container className="mt-[5rem] w-2/3">
+                <div className="p-3 text-white rounded-lg shadow-lg overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700">
+                    {tweet.featuredImage && (
                         <img
                             src={appwriteService.getImagePreview(tweet.featuredImage)}
                             alt={tweet.content}
-                            height='470px'
-                            width='670px'
+                            className="w-full mx-auto object-cover hover:cursor-pointer rounded-lg"
+                            onClick={() => setIsImageOpen(true)}
                         />
-                    }
-                    <div>
-                        <h3>{tweet.content}</h3>
+                    )}
+                    <div className="px-6 py-1">
+                        <h3 className="text-xl font-semibold">{tweet.content}</h3>
                     </div>
-                    <div>
-                        <p>{tweet.timestamp}</p>
+                    <div className="px-6 py-0 flex items-center justify-between">
+                        <p className="text-sm text-gray-300 mt-2">{tweet.timestamp}</p>
+                        <div className='flex'>
+                            {isAuthor && (
+                                <Button
+                                    className="text-xs mx-4 text-red-500 font-bold hover:bg-red-800"
+                                    bgColor='bg-red-700'
+                                    onClick={handleDelete}
+                                >
+                                    Delete
+                                </Button>
+                            )}
+                            <LikeBtn tweet={tweet} />
+                        </div>
                     </div>
-                    <LikeBtn tweet={tweet} />
-                    {
-                        isAuthor ? (
-                            <Button
-                                className='text-xs'
-                                onClick={handleDelete}
-                            >
-                                Delete
-                            </Button>
-                        ) : null
-                    }
                 </div>
+
+                {isImageOpen && (
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                        onClick={() => setIsImageOpen(false)}  // Close modal on overlay click
+                    >
+                        <img
+                            src={appwriteService.getImagePreview(tweet.featuredImage)}
+                            alt={tweet.content}
+                            className="max-w-full h-full object-contain"
+                            // className="m-2 max-w-full h-full object-cover"
+                        />
+                    </div>
+                )}
             </Container>
+
+
+
+
+
+
+
+            // <Container className='mt-[5rem]'>
+            //     <div className='bg-blue-700'>
+            //         {tweet.featuredImage &&
+            //             <img
+            //                 src={appwriteService.getImagePreview(tweet.featuredImage)}
+            //                 alt={tweet.content}
+            //                 height='470px'
+            //                 width='670px'
+            //             />
+            //         }
+            //         <div>
+            //             <h3>{tweet.content}</h3>
+            //         </div>
+            //         <div>
+            //             <p>{tweet.timestamp}</p>
+            //         </div>
+            //         <LikeBtn tweet={tweet} />
+            //         {
+            //             isAuthor ? (
+            //                 <Button
+            //                     className='text-xs'
+            //                     onClick={handleDelete}
+            //                 >
+            //                     Delete
+            //                 </Button>
+            //             ) : null
+            //         }
+            //     </div>
+            // </Container>
         ) : <h1>Tweet unavalibale</h1>
 }
 
