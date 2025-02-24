@@ -5,7 +5,7 @@ import appwriteService from '../appwrite/config'
 
 function TweetCard(tweet) {
     return (
-        <div className="w-1/2 mx-auto rounded-md shadow-lg overflow-hidden my-6 shadow-[0px_0px_2px_rgba(255,255,255,1)]">
+        <div className="w-full sm:w-2/3 md:w-1/2 mx-auto rounded-md shadow-lg overflow-hidden my-6 shadow-[0px_0px_2px_rgba(255,255,255,1)]">
         {/* <div className="max-w-md mx-auto rounded-sm shadow-lg overflow-hidden my-6 shadow-[0px_0px_2px_rgba(255,255,255,1)]"> */}
             <Link to={`/tweet/${tweet.$id}`}>
                 <div className="p-4 transition duration-300 bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 hover:from-purple-600 hover:via-indigo-600 hover:to-blue-600">

@@ -51,9 +51,9 @@ function Tweet() {
             })
     }
 
-    return loading ? <h1>Loading...</h1>
+    return loading ? <h1 className='mt-[2rem] md:mt-[1rem]'>Loading...</h1>
         : tweet ? (
-            <Container className="mt-[5rem] w-2/3">
+            <Container className="mt-[2rem] md:mt-[1rem] w-2/3">
                 <div className="p-3 text-white rounded-lg shadow-lg overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700">
                     {tweet.featuredImage && (
                         <img
@@ -133,7 +133,7 @@ function Tweet() {
             //         }
             //     </div>
             // </Container>
-        ) : <h1>Tweet unavalibale</h1>
+        ) : <h1 className='mt-[2rem] md:mt-[1rem]'>Tweet unavalibale</h1>
 }
 
 export default Tweet

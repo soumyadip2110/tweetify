@@ -60,7 +60,7 @@ function AddTweet() {
     };
 
     return (
-        <div className="mt-[5rem] max-w-2xl mx-auto bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 shadow-[0px_1px_4px_rgba(255,255,255,1)] rounded-xl p-8 space-y-6">
+        <div className="mt-[2rem] md:mt-[1rem] max-w-2xl mx-auto bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 shadow-[0px_1px_4px_rgba(255,255,255,1)] rounded-xl p-8 space-y-6">
             <h1 className="text-4xl font-extrabold text-white text-center mb-8">What's on Your Mind?</h1>
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Textarea */}

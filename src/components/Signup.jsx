@@ -34,7 +34,7 @@ function Signup() {
     return (
         <Container className='mt-[6rem] p-6'>
             <h1 className='text-2xl font-bold'>Signup and create a account</h1>
-            <form className='w-1/3 m-auto mt-6 flex flex-col justify-center p-6 bg-[#687EFF] bg-opacity-10 border hover:shadow-[0px_0px_6px_#fff] duration-200 rounded-xl h-full' onSubmit={handleSubmit}>
+            <form className='w-full sm:w-1/2 md:w-1/3 m-auto mt-6 flex flex-col justify-center p-6 bg-[#687EFF] bg-opacity-10 border hover:shadow-[0px_0px_6px_#fff] duration-200 rounded-xl h-full' onSubmit={handleSubmit}>
                 <div className='p-2'>
                     <Input
                         label='Name:'

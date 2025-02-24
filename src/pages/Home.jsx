@@ -26,9 +26,9 @@ function Home() {
     }, []);
 
     if (authStatus) {
-        return loading ? <h1 className='text-white mt-[5rem]'>Loading...</h1>
+        return loading ? <h1 className='text-white mt-[2rem] md:mt-[1rem]'>Loading...</h1>
             : tweets?.length > 0 ? (
-                <Container className='mt-[5rem]'>
+                <Container className='mt-[2rem] md:mt-[1rem]'>
                     {
                         tweets.map((tweet) => (
                             <div key={tweet.$id}>
