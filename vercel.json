@@ -2,8 +2,7 @@
     "redirects": [
         {
             "source": "/:path*",
-            "destination": "/",
-            "permanent": false
+            "destination": "/"
         }
     ]
 }
