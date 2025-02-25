@@ -42,7 +42,8 @@ function Login() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className='h-7'
-                        />
+                        autoComplete="email"
+                    />
                 </div>
                 <div className='p-2'>
                     <Input
@@ -53,6 +54,7 @@ function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className='h-7'
+                        autoComplete="current-password"
                     />
                 </div>
                 <div className='p-1'>
@@ -60,7 +62,7 @@ function Login() {
                         type='submit'
                         className='mt-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500 duration-200'
                         bgColor='bg-[#475dde]'
-                        >
+                    >
                         Login
                     </Button>
                 </div>

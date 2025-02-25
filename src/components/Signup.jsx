@@ -43,6 +43,7 @@ function Signup() {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className='h-7'
+                        autoComplete="username"
                     />
                 </div>
                 <div className='p-2'>
@@ -53,6 +54,7 @@ function Signup() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className='h-7'
+                        autoComplete="email"
                     />
                 </div>
                 <div className='p-2'>
@@ -64,6 +66,7 @@ function Signup() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className='h-7'
+                        autoComplete="new-password"
                     />
                 </div>
                 <div className='p-2'>

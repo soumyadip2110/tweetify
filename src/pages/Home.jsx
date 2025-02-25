@@ -14,7 +14,7 @@ function Home() {
         if (authStatus) {
             appwriteService.getTweets()
                 .then((tweets) => {
-                    setTweets(tweets.documents);
+                    setTweets(tweets.documents.reverse());
                 })
                 .catch(e => {
                     console.log(e)
