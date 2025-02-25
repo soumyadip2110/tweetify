@@ -26,13 +26,13 @@ function Tweet() {
     }, [slug]);
 
     const handleEscapeKey = useCallback((e) => {
-        if (e.key === 'Escape'){
+        if (e.key === 'Escape') {
             setIsImageOpen(false)
         }
     }, [])
-    
+
     useEffect(() => {
-        if (isImageOpen){
+        if (isImageOpen) {
             window.addEventListener('keyup', handleEscapeKey);
         }
         return () => {
@@ -59,9 +59,10 @@ function Tweet() {
                         <img
                             src={appwriteService.getImagePreview(tweet.featuredImage)}
                             alt={tweet.content}
-                            className="w-full mx-auto object-cover hover:cursor-pointer rounded-lg"
+                            className="w-full md:w-1/2 mx-auto object-contain max-h-screen hover:cursor-pointer rounded-lg"
                             onClick={() => setIsImageOpen(true)}
                         />
+
                     )}
                     <div className="px-6 py-1">
                         <h3 className="text-xl font-semibold">{tweet.content}</h3>
@@ -86,13 +87,12 @@ function Tweet() {
                 {isImageOpen && (
                     <div
                         className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-                        onClick={() => setIsImageOpen(false)}  // Close modal on overlay click
+                        onClick={() => setIsImageOpen(false)}
                     >
                         <img
                             src={appwriteService.getImagePreview(tweet.featuredImage)}
                             alt={tweet.content}
                             className="max-w-full h-full object-contain"
-                            // className="m-2 max-w-full h-full object-cover"
                         />
                     </div>
                 )}

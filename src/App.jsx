@@ -33,7 +33,7 @@ function App() {
 		</div>
 	)
 	: (
-		<div>
+		<div className='text-white'>
 			Loading...
 		</div>
 	)

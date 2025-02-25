@@ -62,7 +62,7 @@ function AddTweet() {
     return (
         <div className="mt-[2rem] md:mt-[1rem] max-w-2xl mx-auto bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 shadow-[0px_1px_4px_rgba(255,255,255,1)] rounded-xl p-8 space-y-6">
             <h1 className="text-4xl font-extrabold text-white text-center mb-8">What's on Your Mind?</h1>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-3">
                 {/* Textarea */}
                 <textarea
                     className="w-full p-6 text-gray-900 bg-blue-200 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-blue-800 focus:ring-opacity-50 text-lg placeholder-gray-400"
@@ -70,12 +70,16 @@ function AddTweet() {
                     placeholder="Share your thoughts..."
                     value={tweet}
                     onChange={(e) => setTweet(e.target.value)}
+                    maxLength="250"
                 />
+                <div className="text-right text-sm text-gray-300">
+                    {tweet.length} / 250
+                </div>
 
                 {/* Image Upload */}
                 <div className="flex justify-between items-center">
                     <label className="text-sm font-semibold text-white">Upload Image:</label>
-                    <input
+                    <Input
                         ref={fileInputRef}
                         type='file'
                         accept="image/png, image/jpg, image/jpeg, image/gif"
@@ -101,28 +105,11 @@ function AddTweet() {
                         <img
                             src={imagePreview}
                             alt="Preview"
-                            className="max-w-xs h-auto rounded-xl shadow-lg" // Adjusted size for preview
+                            className="max-w-xs max-h-96 h-auto rounded-xl shadow-lg"
                         />
                     </div>
                 )}
 
-
-
-                {/* {imagePreview && (
-                    <div className="mt-6 flex justify-center">
-                        <Button
-                            onClick={handleImageRemove}
-                            bgColor='bg-white'
-                            textColor='text-red-600'
-                            className="border-2 border-red-600 hover:bg-red-600 hover:text-white rounded-full"
-                        >
-                            Remove
-                        </Button>
-                        <img src={imagePreview} alt="Preview" className="max-w-full h-auto rounded-xl shadow-lg" />
-                    </div>
-                )} */}
-
-                {/* Submit Button */}
                 <Button
                     type='submit'
                     className={`w-full py-3 text-lg font-bold text-white rounded-lg transition-all duration-300 ${tweet.length > 0 ? 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900' : 'bg-gray-400 cursor-not-allowed'}`}
@@ -132,37 +119,6 @@ function AddTweet() {
                 </Button>
             </form>
         </div>
-
-
-
-
-        // <div>
-        //     <h1 className='text-black'>Post your tweet</h1>
-        //     <form className='mt-8' onSubmit={handleSubmit}>
-        //         <div className=''>
-        //             <Input
-        //                 type='textarea'
-        //                 placeholder="What's on your mind?"
-        //                 value={tweet}
-        //                 onChange={(e) => setTweet(e.target.value)}
-        //             />
-        //             <Input
-        //                 type='file'
-        //                 label='Upload image:'
-        //                 accept="image/png, image/jpg, image/jpeg, image/gif"
-        //                 onChange={handleImageUpload}
-        //             />
-        //             {imagePreview && <img src={imagePreview} alt='image' height='300px' width='300px' />}
-        //             <Button
-        //                 type='submit'
-        //                 className={`mt-2 ${tweet.length > 0 ? 'hover:bg-blue-800' : 'bg-blue-900'}`}
-        //                 disabled={tweet.length === 0}
-        //             >
-        //                 Tweet
-        //             </Button>
-        //         </div>
-        //     </form>
-        // </div>
     )
 }
 

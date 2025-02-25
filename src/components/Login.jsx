@@ -59,7 +59,6 @@ function Login() {
                     <Button
                         type='submit'
                         className='mt-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 hover:from-purple-500 hover:via-indigo-500 hover:to-blue-500 duration-200'
-                        // className='mt-2 hover:bg-[#687EFF] duration-200'
                         bgColor='bg-[#475dde]'
                         >
                         Login
