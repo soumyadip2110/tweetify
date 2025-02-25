@@ -42,7 +42,7 @@ function Home() {
     }
     return (
         <Container className='mt-[6rem] p-12 overflow-hidden'>
-            <h1 className='text-5xl text-white'>Welcome to Tweet App</h1>
+            <h1 className='text-5xl text-white font-bold'>Welcome to <span className='bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 bg-clip-text text-transparent'>Tweetify</span></h1>
             <div className='text-lg mt-12'>
                 <h2>
                     Please <span className='font-bold bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 bg-clip-text text-transparent hover:cursor-pointer' onClick={() => navigate('/login')}>Login</span> if you already have an account!

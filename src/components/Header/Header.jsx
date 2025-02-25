@@ -38,7 +38,7 @@ function Header() {
                 <nav className='flex text-sm md:text-xl'>
                     <div className='mx-1 md:mx-5 my-auto font-bold bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 bg-clip-text text-transparent duration-200'>
                         <Link to='/'>
-                            Tweet-App
+                            Tweetify
                         </Link>
                     </div>
                     {authStatus &&(

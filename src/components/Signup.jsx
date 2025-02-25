@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Button, Container, Input } from './index'
 import authService from '../appwrite/auth'
 import { login as storeLogin } from '../store/authSlice'
@@ -6,6 +6,8 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 function Signup() {
+    const passInputRef = useRef(null)
+    
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
@@ -28,6 +30,14 @@ function Signup() {
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    const handlePassShow = () => {
+        if (passInputRef.current.type == 'password'){
+            passInputRef.current.type = 'text'
+        } else {
+            passInputRef.current.type = 'password'
         }
     }
 
@@ -59,6 +69,7 @@ function Signup() {
                 </div>
                 <div className='p-2'>
                     <Input
+                        ref={passInputRef}
                         label='Password:'
                         labelText='white'
                         type='password'
@@ -68,6 +79,16 @@ function Signup() {
                         className='h-7'
                         autoComplete="new-password"
                     />
+                    <Button
+                        type='button'
+                        className={`text-xs mt-1 ${password.length > 0 ? 'block' : 'hidden'}`}
+                        bgColor='bg-gray-500'
+                        py='1'
+                        px='2'
+                        onClick={handlePassShow}
+                    >
+                        Show
+                    </Button>
                 </div>
                 <div className='p-2'>
                     <Button
