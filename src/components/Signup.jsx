@@ -14,22 +14,31 @@ function Signup() {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const userAccount = await authService.createAccount({ email, password, name });
-            if (userAccount) {
-                const userData = await authService.getCurrentUser();
-                if (userData) {
-                    dispatch(storeLogin(userData));
-                    navigate('/');
+
+        // Check if email is valid
+        if (emailRegex.test(email)) {
+            try {
+                const userAccount = await authService.createAccount({ email, password, name });
+                if (userAccount) {
+                    const userData = await authService.getCurrentUser();
+                    if (userData) {
+                        dispatch(storeLogin(userData));
+                        navigate('/');
+                    }
+                } else {
+                    alert('Something went wrong!')
                 }
-            } else {
-                alert('Something went wrong!')
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
+        }
+        else{
+            alert('Please enter a valid email!')
         }
     }
 
@@ -100,6 +109,7 @@ function Signup() {
                     </Button>
                 </div>
             </form>
+            <h1 className=''>Password must be atleast 8 characters long</h1>
         </Container>
     )
 }
