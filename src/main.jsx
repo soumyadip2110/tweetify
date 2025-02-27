@@ -49,7 +49,7 @@ const router = createBrowserRouter([
 				)
 			},
 			{
-				path: '/user-posts',
+				path: '/user-tweets',
 				element: (
 					<AuthLayout authentication>
 						<UserHome />

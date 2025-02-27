@@ -29,6 +29,11 @@ function Header() {
             name: 'Add Tweet',
             slug: '/add-tweet',
             active: authStatus
+        },
+        {
+            name: 'My Tweets',
+            slug: '/user-tweets',
+            active: authStatus
         }
     ];
 
@@ -42,9 +47,9 @@ function Header() {
                         </Link>
                     </div>
                     {authStatus &&(
-                        <Link to='/user-posts' className='mx-1 md:mx-5 my-auto font-bold'>
+                        <div className='mx-1 md:mx-5 my-auto font-bold'>
                             Hello, {userData.name}!
-                        </Link>
+                        </div>
                     )}
                     <ul className='flex ml-auto'>
                         {navItems.map(item =>

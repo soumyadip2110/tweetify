@@ -24,6 +24,9 @@ function UserHome() {
     return loading ? <h1 className='text-white mt-[2rem] md:mt-[1rem]'>Loading...</h1>
         : userTweets.length > 0 ? (
             <Container className='mt-[2rem] md:mt-[1rem]'>
+                <h1 className='text-2xl text-white font-bold'>
+                    Hi {userData.name}, here are all of your posts:
+                </h1>
                 {
                     userTweets.map(tweet => (
                         <div key={tweet.$id}>
