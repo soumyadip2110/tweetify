@@ -138,6 +138,20 @@ export class Service {
         }
     }
 
+    async getUserTweets(userId){
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                [
+                    Query.equal('userId', [userId])
+                ]
+            );
+        } catch (error) {
+            console.log('Appwrite service :: getUserTweets :: error', error);
+        }
+    }
+
     async deleteTweet(tweetId) {
         try {
             await this.databases.deleteDocument(

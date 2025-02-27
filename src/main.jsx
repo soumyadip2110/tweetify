@@ -4,7 +4,7 @@ import App from './App.jsx'
 import {Provider} from 'react-redux'
 import store from './store/store.js'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { AddTweet, Home, Login, Signup, Tweet } from './pages/index.js'
+import { AddTweet, Home, Login, Signup, Tweet, UserHome } from './pages/index.js'
 import { AuthLayout } from './components/index.js'
 
 const router = createBrowserRouter([
@@ -47,7 +47,15 @@ const router = createBrowserRouter([
 						<Tweet />
 					</AuthLayout>
 				)
-			}
+			},
+			{
+				path: '/user-posts',
+				element: (
+					<AuthLayout authentication>
+						<UserHome />
+					</AuthLayout>
+				)
+			},
 		]
 	}
 ])

@@ -42,9 +42,9 @@ function Header() {
                         </Link>
                     </div>
                     {authStatus &&(
-                        <div className='mx-1 md:mx-5 my-auto font-bold'>
+                        <Link to='/user-posts' className='mx-1 md:mx-5 my-auto font-bold'>
                             Hello, {userData.name}!
-                        </div>
+                        </Link>
                     )}
                     <ul className='flex ml-auto'>
                         {navItems.map(item =>
