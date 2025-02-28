@@ -5,18 +5,23 @@ import appwriteService from '../appwrite/config'
 
 function TweetCard(tweet) {
     return (
-        <div className="w-full sm:w-2/3 md:w-1/2 mx-auto rounded-md shadow-lg overflow-hidden my-6 shadow-[0px_0px_2px_rgba(255,255,255,1)]">
+        <div className="w-full sm:w-2/3 md:w-1/2 p-1 mx-auto rounded-md shadow-lg overflow-hidden my-6 shadow-[0px_0px_2px_rgba(255,255,255,0.4)]">
+            <p
+                className="font-semibold text-white text-sm text-left mx-1"
+            >
+                {tweet.userName ? tweet.userName : 'Username not found!'}
+            </p>
             <Link to={`/tweet/${tweet.$id}`}>
-                <div className="p-4 transition duration-300 bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 hover:from-purple-600 hover:via-indigo-600 hover:to-blue-600">
+                <div className="p-4 transition rounded-md duration-300 bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 hover:from-purple-600 hover:via-indigo-600 hover:to-blue-600">
                     {tweet.featuredImage && (
                         <img
                             src={appwriteService.getImagePreview(tweet.featuredImage)}
                             alt={tweet.content}
-                            className="w-full h-64 object-cover rounded-lg mb-4"
+                            className="w-full h-64 object-cover rounded-md mb-4"
                         />
                     )}
                     <div className="space-y-2">
-                        <h3 className="text-xl font-semibold text-white">{tweet.content}</h3>
+                        <h3 className="text-lg font-semibold text-white">{tweet.content}</h3>
                     </div>
                 </div>
             </Link>

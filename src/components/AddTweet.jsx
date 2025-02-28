@@ -29,7 +29,8 @@ function AddTweet() {
                 content: tweet,
                 userId: userData.$id,
                 timestamp: date + ' - ' + time,
-                featuredImage: image ? file.$id : ''
+                featuredImage: image ? file.$id : '',
+                userName: userData.name
             });
             if (post) {
                 navigate(`/tweet/${post.$id}`);

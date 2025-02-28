@@ -14,7 +14,7 @@ export class Service {
         this.bucket = new Storage(this.client);
     }
 
-    async createTweet({ content, userId, timestamp, featuredImage = '' }) {
+    async createTweet({ content, userId, timestamp, featuredImage = '', userName }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -25,7 +25,8 @@ export class Service {
                     userId,
                     timestamp,
                     likes: 0,
-                    featuredImage
+                    featuredImage,
+                    userName
                 }
             );
         } catch (error) {

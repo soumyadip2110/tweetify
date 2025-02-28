@@ -10,7 +10,7 @@ function Signup() {
     
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [name, setName] = useState('')
+    const [username, setUsername] = useState('')
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -23,7 +23,7 @@ function Signup() {
         // Check if email is valid
         if (emailRegex.test(email)) {
             try {
-                const userAccount = await authService.createAccount({ email, password, name });
+                const userAccount = await authService.createAccount({ email, password, username });
                 if (userAccount) {
                     const userData = await authService.getCurrentUser();
                     if (userData) {
@@ -56,11 +56,11 @@ function Signup() {
             <form className='w-full sm:w-1/2 md:w-1/3 m-auto mt-6 flex flex-col justify-center p-6 bg-[#687EFF] bg-opacity-10 border hover:shadow-[0px_0px_6px_#fff] duration-200 rounded-xl h-full' onSubmit={handleSubmit}>
                 <div className='p-2'>
                     <Input
-                        label='Name:'
+                        label='Username:'
                         labelText='white'
-                        placeholder='Enter your name'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        placeholder='Enter a username'
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         className='h-7'
                         autoComplete="username"
                     />

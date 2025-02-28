@@ -36,7 +36,7 @@ function UserHome() {
                 }
             </Container>
         )
-            : <h2 className='text-white'> No tweets available </h2>
+            : <h2 className='mt-[2rem] md:mt-[1rem] text-white'> You haven't posted any tweets yet! </h2>
 }
 
 export default UserHome

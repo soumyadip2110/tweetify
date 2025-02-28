@@ -54,7 +54,8 @@ function Tweet() {
     return loading ? <h1 className='mt-[2rem] md:mt-[1rem]'>Loading...</h1>
         : tweet ? (
             <Container className="mt-[2rem] md:mt-[1rem] w-2/3">
-                <div className="p-3 text-white rounded-lg shadow-lg overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700">
+                <div className="p-3 pt-2 text-white rounded-lg shadow-lg overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700">
+                    <p className="font-semibold text-white text-left mx-1 mb-2 border-b">{tweet.userName ? tweet.userName : 'Username not found!'}</p>
                     {tweet.featuredImage && (
                         <img
                             src={appwriteService.getImagePreview(tweet.featuredImage)}
