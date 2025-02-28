@@ -10,6 +10,7 @@ import TweetCard from "./TweetCard";
 import Tweet from "./Tweet";
 import AuthLayout from './AuthLayout'
 import LikeBtn from "./LikeBtn";
+import UserHome from "./UserHome";
 
 export {
     Header,
@@ -23,5 +24,6 @@ export {
     TweetCard,
     Tweet,
     AuthLayout,
-    LikeBtn
+    LikeBtn,
+    UserHome
 };

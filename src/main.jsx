@@ -56,6 +56,14 @@ const router = createBrowserRouter([
 					</AuthLayout>
 				)
 			},
+			{
+				path: '/user/:slug',
+				element: (
+					<AuthLayout authentication>
+						<UserHome />
+					</AuthLayout>
+				)
+			},
 		]
 	}
 ])
