@@ -57,7 +57,7 @@ function Tweet() {
                 <div className="p-3 pt-1 text-white rounded-lg shadow-lg overflow-hidden">
                     <div
                         onClick={()=>navigate(isAuthor ? '/user-tweets' : `/user/${tweet.userId}`)}
-                        className="px-2 py-1 text-left font-semibold text-white text-sm mx-1 mb-2 border-b border-gray-700 cursor-pointer"
+                        className="px-2 py-1 text-left font-semibold text-white text-sm mx-0 mb-2 border-b border-gray-700 cursor-pointer"
                     >
                         {tweet.userName ? tweet.userName : 'Username not found!'}
                     </div>
@@ -98,7 +98,7 @@ function Tweet() {
                         <img
                             src={appwriteService.getImagePreview(tweet.featuredImage)}
                             alt={tweet.content}
-                            className="max-w-full h-full object-contain"
+                            className="cursor-pointer max-w-full h-full object-contain"
                         />
                     </div>
                 )}

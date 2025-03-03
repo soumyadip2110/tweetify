@@ -11,6 +11,7 @@ import Tweet from "./Tweet";
 import AuthLayout from './AuthLayout'
 import LikeBtn from "./LikeBtn";
 import UserHome from "./UserHome";
+import Comments from "./Comments";
 
 export {
     Header,
@@ -25,5 +26,6 @@ export {
     Tweet,
     AuthLayout,
     LikeBtn,
-    UserHome
+    UserHome,
+    Comments
 };
