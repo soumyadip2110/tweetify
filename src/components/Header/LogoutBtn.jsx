@@ -20,7 +20,9 @@ function LogoutBtn() {
     return (
         <Button
             onClick={logoutHandler}
-            className='font-bold inline-bock bg-red-700 mx-2 my-1 px-4 py-1 duration-200 hover:bg-red-800 rounded-2xl'
+            className='font-bold inline-bock bg-red-700 mx-1 my-2 duration-200 hover:bg-red-800 rounded-lg'
+            py='0'
+            px='2'
         >
             Logout
         </Button>

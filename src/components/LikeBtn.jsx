@@ -3,7 +3,7 @@ import { Button } from './index'
 import appwriteService from '../appwrite/config'
 import { useSelector } from 'react-redux'
 
-function LikeBtn({ tweet }) {
+function LikeBtn({ tweet, className='' }) {
     const [likeCount, setLikeCount] = useState(0)
     const [liked, setLiked] = useState(false)
     const [updateLike, setUpdateLike] = useState(false)
@@ -34,7 +34,7 @@ function LikeBtn({ tweet }) {
     }
 
     return (
-        <div className="flex items-center space-x-2">
+        <div className={`flex items-center space-x-2 ${className}`}>
             <Button
                 onClick={handleLikeUnlike}
                 disabled={likeLoading}

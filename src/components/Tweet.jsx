@@ -55,7 +55,12 @@ function Tweet() {
         : tweet ? (
             <Container className="mt-[2rem] md:mt-[1rem] w-2/3">
                 <div className="p-3 pt-2 text-white rounded-lg shadow-lg overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700">
-                    <p className="font-semibold text-white text-left mx-1 mb-2 border-b">{tweet.userName ? tweet.userName : 'Username not found!'}</p>
+                    <div
+                        onClick={()=>navigate(isAuthor ? '/user-tweets' : `/user/${tweet.userId}`)}
+                        className="px-6 text-left font-semibold text-white text-sm mx-1 mb-2 border-b cursor-pointer"
+                    >
+                        {tweet.userName ? tweet.userName : 'Username not found!'}
+                    </div>
                     {tweet.featuredImage && (
                         <img
                             src={appwriteService.getImagePreview(tweet.featuredImage)}
@@ -68,26 +73,26 @@ function Tweet() {
                     <div className="px-6 py-1">
                         <h3 className="text-xl font-semibold">{tweet.content}</h3>
                     </div>
-                    <div className="px-6 py-0 flex items-center justify-between">
-                        <p className="text-sm text-gray-300 mt-2">{tweet.timestamp}</p>
-                        <div className='flex'>
+                    <div className="border-t px-6 py-0 flex items-center justify-between">
+                        <p className="text-sm text-gray-300 mt-1">{tweet.timestamp}</p>
+                        <div className='flex mt-1'>
                             {isAuthor && (
                                 <Button
-                                    className="text-xs mx-4 text-red-500 font-bold hover:bg-red-800"
+                                    className="text-xs mx-4 mt-1 text-red-500 font-bold hover:bg-red-800"
                                     bgColor='bg-red-700'
                                     onClick={handleDelete}
                                 >
                                     Delete
                                 </Button>
                             )}
-                            <LikeBtn tweet={tweet} />
+                            <LikeBtn className='mt-1' tweet={tweet} />
                         </div>
                     </div>
                 </div>
 
                 {isImageOpen && (
                     <div
-                        className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                        className="fixed inset-0 bg-black bg-opacity-100 flex justify-center items-center z-50"
                         onClick={() => setIsImageOpen(false)}
                     >
                         <img
