@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import authService from '../../appwrite/auth'
 import { logout as storeLogout } from '../../store/authSlice'
@@ -8,15 +8,17 @@ import { Button } from '../index'
 function LogoutBtn() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [btnText, setBtnText] = useState('Logout');
 
     const logoutHandler = () => {
+        setBtnText('Loggin out...');
         authService.logout()
-        .then(() => {
-            dispatch(storeLogout());
-            navigate('/login');
-        });
+            .then(() => {
+                dispatch(storeLogout());
+                navigate('/login');
+            });
     }
-    
+
     return (
         <Button
             onClick={logoutHandler}
@@ -24,7 +26,7 @@ function LogoutBtn() {
             py='0'
             px='2'
         >
-            Logout
+            {btnText}
         </Button>
     )
 }

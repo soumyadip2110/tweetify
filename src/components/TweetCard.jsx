@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 function TweetCard(tweet) {
     const userData = useSelector(state => state.auth.userData)
     return (
-        <div className="text-left w-full sm:w-2/3 md:w-1/2 p-1 mx-auto rounded-md shadow-lg overflow-hidden my-6 shadow-[0px_0px_3px_rgba(255,255,255,0.4)]">
+        <div className="text-left w-full sm:w-2/3 md:w-1/2 p-1 mx-auto rounded-md shadow-lg overflow-hidden my-6 shadow-[0px_0px_1px_rgba(255,255,255,0.4)]">
             <div className='px-1'>
                 <Link to={tweet.userName === userData.name ? '/user-tweets' : `/user/${tweet.userId}`}
                     className="font-semibold text-white text-sm mx-1"
@@ -16,7 +16,7 @@ function TweetCard(tweet) {
                 </Link>
             </div>
             <Link to={`/tweet/${tweet.$id}`}>
-                <div className="p-4 transition rounded-md duration-300 bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 hover:from-purple-600 hover:via-indigo-600 hover:to-blue-600">
+                <div className="p-4 transition rounded-md duration-300 bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 hover:from-black hover:via-gray-800 hover:to-black">
                     {tweet.featuredImage && (
                         <img
                             src={appwriteService.getImagePreview(tweet.featuredImage)}

@@ -54,10 +54,10 @@ function Tweet() {
     return loading ? <h1 className='mt-[2rem] md:mt-[1rem]'>Loading...</h1>
         : tweet ? (
             <Container className="mt-[2rem] md:mt-[1rem] w-2/3">
-                <div className="p-3 pt-2 text-white rounded-lg shadow-lg overflow-hidden bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700">
+                <div className="p-3 pt-1 text-white rounded-lg shadow-lg overflow-hidden">
                     <div
                         onClick={()=>navigate(isAuthor ? '/user-tweets' : `/user/${tweet.userId}`)}
-                        className="px-6 text-left font-semibold text-white text-sm mx-1 mb-2 border-b cursor-pointer"
+                        className="px-2 py-1 text-left font-semibold text-white text-sm mx-1 mb-2 border-b border-gray-700 cursor-pointer"
                     >
                         {tweet.userName ? tweet.userName : 'Username not found!'}
                     </div>
@@ -70,10 +70,10 @@ function Tweet() {
                         />
 
                     )}
-                    <div className="px-6 py-1">
+                    <div className="border-b border-gray-700 px-6 py-1">
                         <h3 className="text-xl font-semibold">{tweet.content}</h3>
                     </div>
-                    <div className="border-t px-6 py-0 flex items-center justify-between">
+                    <div className="px-2 py-0 flex items-center justify-between">
                         <p className="text-sm text-gray-300 mt-1">{tweet.timestamp}</p>
                         <div className='flex mt-1'>
                             {isAuthor && (
