@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import LikeBtn from './LikeBtn'
 import appwriteService from '../appwrite/config'
@@ -6,6 +6,13 @@ import { useSelector } from 'react-redux'
 
 function TweetCard(tweet) {
     const userData = useSelector(state => state.auth.userData)
+    const [commentCount, setCommentCount] = useState(0);
+    useEffect(() => {
+        appwriteService.getTweetComments(tweet.$id)
+            .then(allComments => setCommentCount(allComments.documents.length))
+            .catch(err => console.log(err));
+    }, []);
+
     return (
         <div className="text-left w-full sm:w-2/3 md:w-1/2 p-1 mx-auto rounded-md shadow-lg overflow-hidden my-6 border border-gray-600">
             <div className='px-1'>
@@ -25,13 +32,16 @@ function TweetCard(tweet) {
                         />
                     )}
                     <div className="space-y-2">
-                        <h3 className="text-lg font-semibold text-white">{tweet.content}</h3>
+                        <h3 className="text-lg font-semibold text-white break-words">{tweet.content}</h3>
                     </div>
                 </div>
             </Link>
             <div className="flex justify-between py-1 px-2">
                 <p className="text-sm text-gray-300">{tweet.timestamp}</p>
-                <LikeBtn tweet={tweet} />
+                <div className='text-sm text-gray-300 flex space-x-2 items-center'>
+                    <p>{commentCount} comments</p>
+                    <LikeBtn tweet={tweet} />
+                </div>
             </div>
         </div>
     )

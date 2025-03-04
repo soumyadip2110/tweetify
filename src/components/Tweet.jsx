@@ -64,7 +64,9 @@ function Tweet() {
 
     return loading ? <h1 className='mt-[2rem] md:mt-[1rem]'>Loading...</h1>
         : tweet ? (
-            <Container className="mt-[2rem] md:mt-[1rem] w-2/3">
+            <Container className="mt-[2rem] md:mt-[0rem] w-2/3">
+
+                {/* Tweet */}
                 <div className="p-3 pt-1 text-white rounded-lg shadow-lg overflow-hidden">
                     <div
                         onClick={() => navigate(isAuthor ? '/user-tweets' : `/user/${tweet.userId}`)}
@@ -82,7 +84,7 @@ function Tweet() {
 
                     )}
                     <div className="border-b border-gray-700 px-6 py-1">
-                        <h3 className="text-xl font-semibold">{tweet.content}</h3>
+                        <h3 className="text-xl font-semibold break-words text-left">{tweet.content}</h3>
                     </div>
                     <div className="px-2 py-0 flex items-center justify-between">
                         <p className="text-sm text-gray-300 mt-1">{tweet.timestamp}</p>
@@ -101,14 +103,7 @@ function Tweet() {
                     </div>
                 </div>
 
-                <AddComment tweetId={tweet.$id} addComment={addComment} />
-
-                {commentLoading ? <h1 className='mt-[2rem] md:mt-[1rem]'>Loading comments...</h1>
-                    : comments.length > 0 ?
-                        <AllComments comments={comments} deleteComment={deleteComment} />
-                        : <h2 className='text-white'> No comments available </h2>
-                }
-
+                {/* Image full screen */}
                 {isImageOpen && (
                     <div
                         className="fixed inset-0 bg-black bg-opacity-100 flex justify-center items-center z-50"
@@ -121,6 +116,15 @@ function Tweet() {
                         />
                     </div>
                 )}
+
+                {/* Comments section */}
+                <AddComment tweetId={tweet.$id} addComment={addComment} />
+
+                {commentLoading ? <h1 className='mt-[2rem] md:mt-[1rem]'>Loading comments...</h1>
+                    : comments.length > 0 ?
+                        <AllComments comments={comments} deleteComment={deleteComment} />
+                        : <h2 className='border-t m-4 text-white'> No comments available </h2>
+                }
             </Container>
         ) : <h1 className='mt-[2rem] md:mt-[1rem]'>Tweet unavalibale</h1>
 }
