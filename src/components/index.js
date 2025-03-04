@@ -11,7 +11,8 @@ import Tweet from "./Tweet";
 import AuthLayout from './AuthLayout'
 import LikeBtn from "./LikeBtn";
 import UserHome from "./UserHome";
-import Comments from "./Comments";
+import AllComments from "./AllComments";
+import AddComment from "./AddComment";
 
 export {
     Header,
@@ -27,5 +28,6 @@ export {
     AuthLayout,
     LikeBtn,
     UserHome,
-    Comments
+    AllComments,
+    AddComment
 };

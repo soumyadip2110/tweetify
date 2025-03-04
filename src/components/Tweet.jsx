@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import appwriteService from '../appwrite/config'
 import { useSelector } from 'react-redux';
-import { Button, Container, LikeBtn } from './index'
+import { AddComment, AllComments, Button, Container, LikeBtn } from './index'
 
 function Tweet() {
     const [tweet, setTweet] = useState(null);
@@ -12,18 +12,29 @@ function Tweet() {
     const isAuthor = tweet && userData ? tweet.userId === userData.$id : false;
     const navigate = useNavigate()
     const [isImageOpen, setIsImageOpen] = useState(false);
-
+    const [comments, setComments] = useState([]);
+    const [commentLoading, setCommentLoading] = useState(true);
+    const [triggerCommentDelete, setTriggerCommentDelete] = useState(true);
 
     useEffect(() => {
         appwriteService.getTweet(slug)
-            .then((tweet) => {
-                setTweet(tweet);
-            })
+            .then((tweet) => setTweet(tweet))
             .catch((err) => console.log(err))
-            .finally(() => {
-                setLoading(false)
-            });
-    }, [slug]);
+            .finally(() => setLoading(false));
+
+        appwriteService.getTweetComments(slug)
+            .then(allComments => setComments(allComments.documents.reverse()))
+            .catch(err => console.log(err))
+            .finally(() => setCommentLoading(false));
+    }, [slug, triggerCommentDelete]);
+
+    const addComment = (newComment) => {
+        setComments(prevComment => [newComment, ...prevComment])
+    }
+
+    const deleteComment = () => {
+        setTriggerCommentDelete(prev => !prev);
+    }
 
     const handleEscapeKey = useCallback((e) => {
         if (e.key === 'Escape') {
@@ -56,7 +67,7 @@ function Tweet() {
             <Container className="mt-[2rem] md:mt-[1rem] w-2/3">
                 <div className="p-3 pt-1 text-white rounded-lg shadow-lg overflow-hidden">
                     <div
-                        onClick={()=>navigate(isAuthor ? '/user-tweets' : `/user/${tweet.userId}`)}
+                        onClick={() => navigate(isAuthor ? '/user-tweets' : `/user/${tweet.userId}`)}
                         className="px-2 py-1 text-left font-semibold text-white text-sm mx-0 mb-2 border-b border-gray-700 cursor-pointer"
                     >
                         {tweet.userName ? tweet.userName : 'Username not found!'}
@@ -90,6 +101,14 @@ function Tweet() {
                     </div>
                 </div>
 
+                <AddComment tweetId={tweet.$id} addComment={addComment} />
+
+                {commentLoading ? <h1 className='mt-[2rem] md:mt-[1rem]'>Loading comments...</h1>
+                    : comments.length > 0 ?
+                        <AllComments comments={comments} deleteComment={deleteComment} />
+                        : <h2 className='text-white'> No comments available </h2>
+                }
+
                 {isImageOpen && (
                     <div
                         className="fixed inset-0 bg-black bg-opacity-100 flex justify-center items-center z-50"
@@ -103,42 +122,6 @@ function Tweet() {
                     </div>
                 )}
             </Container>
-
-
-
-
-
-
-
-            // <Container className='mt-[5rem]'>
-            //     <div className='bg-blue-700'>
-            //         {tweet.featuredImage &&
-            //             <img
-            //                 src={appwriteService.getImagePreview(tweet.featuredImage)}
-            //                 alt={tweet.content}
-            //                 height='470px'
-            //                 width='670px'
-            //             />
-            //         }
-            //         <div>
-            //             <h3>{tweet.content}</h3>
-            //         </div>
-            //         <div>
-            //             <p>{tweet.timestamp}</p>
-            //         </div>
-            //         <LikeBtn tweet={tweet} />
-            //         {
-            //             isAuthor ? (
-            //                 <Button
-            //                     className='text-xs'
-            //                     onClick={handleDelete}
-            //                 >
-            //                     Delete
-            //                 </Button>
-            //             ) : null
-            //         }
-            //     </div>
-            // </Container>
         ) : <h1 className='mt-[2rem] md:mt-[1rem]'>Tweet unavalibale</h1>
 }
 

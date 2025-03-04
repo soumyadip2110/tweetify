@@ -209,6 +209,53 @@ export class Service {
         }
     }
 
+    async createComment({ tweetId, userId, comment, userName, timeStamp}) {
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCommentsCollectionId,
+                ID.unique(),
+                {
+                    tweetId,
+                    userId,
+                    comment,
+                    timeStamp,
+                    userName
+                }
+            );
+        } catch (error) {
+            console.log('Appwrite service :: createComment :: error', error);
+        }
+    }
+
+    async getTweetComments(tweetId) {
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCommentsCollectionId,
+                [
+                    Query.equal('tweetId', [tweetId])
+                ]
+            );
+        } catch (error) {
+            console.log('Appwrite service :: getTweetComments :: error', error);
+        }
+    }
+
+    async deleteComment(commentId) {
+        try {
+            await this.databases.deleteDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCommentsCollectionId,
+                commentId
+            );
+            return true;
+        } catch (error) {
+            console.log('Appwrite service :: deleteComment :: error', error);
+            return false;
+        }
+    }
+    
     getImagePreview(fileId){
         return this.bucket.getFilePreview(
             conf.appwriteBucketId,
