@@ -14,6 +14,7 @@ export class Service {
         this.bucket = new Storage(this.client);
     }
 
+    // Tweets
     async createTweet({ content, userId, timestamp, featuredImage = '', userName }) {
         try {
             return await this.databases.createDocument(
@@ -34,6 +35,62 @@ export class Service {
         }
     }
 
+    async getTweet(slug) {
+        try {
+            return await this.databases.getDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                slug
+            );
+        } catch (error) {
+            console.log('Appwrite service :: getTweets :: error', error);
+        }
+    }
+
+    async getTweets() {
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId
+            );
+        } catch (error) {
+            console.log('Appwrite service :: getTweets :: error', error);
+        }
+    }
+
+    async getUserTweets(userId){
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                [
+                    Query.equal('userId', [userId])
+                ]
+            );
+        } catch (error) {
+            console.log('Appwrite service :: getUserTweets :: error', error);
+        }
+    }
+
+    async deleteTweet(tweetId) {
+        try {
+            await this.databases.deleteDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteCollectionId,
+                tweetId
+            );
+            const likeDocs = await this.getLikes(tweetId, true)
+            likeDocs.map(async (doc) => {
+                await this.deleteLikes(doc)
+            });
+            return true;
+        } catch (error) {
+            console.log('Appwrite service :: deleteTweet :: error', error);
+            return false;
+        }
+    }
+
+    // Likes
     async likeTweet({ tweetId, userId }) {
         try {
             const like = await this.databases.listDocuments(
@@ -116,61 +173,6 @@ export class Service {
         }
     }
 
-    async getTweet(slug) {
-        try {
-            return await this.databases.getDocument(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                slug
-            );
-        } catch (error) {
-            console.log('Appwrite service :: getTweets :: error', error);
-        }
-    }
-
-    async getTweets() {
-        try {
-            return await this.databases.listDocuments(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId
-            );
-        } catch (error) {
-            console.log('Appwrite service :: getTweets :: error', error);
-        }
-    }
-
-    async getUserTweets(userId){
-        try {
-            return await this.databases.listDocuments(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                [
-                    Query.equal('userId', [userId])
-                ]
-            );
-        } catch (error) {
-            console.log('Appwrite service :: getUserTweets :: error', error);
-        }
-    }
-
-    async deleteTweet(tweetId) {
-        try {
-            await this.databases.deleteDocument(
-                conf.appwriteDatabaseId,
-                conf.appwriteCollectionId,
-                tweetId
-            );
-            const likeDocs = await this.getLikes(tweetId, true)
-            likeDocs.map(async (doc) => {
-                await this.deleteLikes(doc)
-            });
-            return true;
-        } catch (error) {
-            console.log('Appwrite service :: deleteTweet :: error', error);
-            return false;
-        }
-    }
-
     async deleteLikes(doc) {
         try {
             await this.databases.deleteDocument(
@@ -209,6 +211,14 @@ export class Service {
         }
     }
 
+    getImagePreview(fileId){
+        return this.bucket.getFilePreview(
+            conf.appwriteBucketId,
+            fileId
+        );
+    }
+
+    // Comments
     async createComment({ tweetId, userId, comment, userName, timeStamp}) {
         try {
             return await this.databases.createDocument(
@@ -255,12 +265,60 @@ export class Service {
             return false;
         }
     }
-    
-    getImagePreview(fileId){
-        return this.bucket.getFilePreview(
-            conf.appwriteBucketId,
-            fileId
-        );
+
+    // Stories
+    async createStory({ userId, userName, content, timeStamp, uploadDateTime }){
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteStoriesCollectionId,
+                ID.unique(),
+                {
+                    userId,
+                    userName,
+                    content,
+                    timeStamp,
+                    uploadDateTime
+                }
+            );
+        } catch (error) {
+            console.log('Appwrite service :: createStory :: error', error);
+        }
+    }
+
+    async getStories(){
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteStoriesCollectionId
+            );
+        } catch (error) {
+            console.log('Appwrite service :: getStories :: error', error);
+        }
+    }
+
+    async getStory(slug){
+        try {
+            return await this.databases.getDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteStoriesCollectionId,
+                slug
+            );
+        } catch (error) {
+            console.log('Appwrite service :: getStory:: error', error);
+        }
+    }
+
+    async deleteStory(storyId){
+        try {
+            await this.databases.deleteDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteStoriesCollectionId,
+                storyId
+            )
+        } catch (error) {
+            console.log('Appwrite service :: deleteStory :: error', error);
+        }
     }
 }
 

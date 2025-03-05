@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import appwriteService from '../appwrite/config'
-import { TweetCard, Container } from '../components/index';
+import { TweetCard, Container, StoryCard } from '../components/index';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,9 @@ function Home() {
     const [tweets, setTweets] = useState([])
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate();
+    const [stories, setStories] = useState([]);
 
+    // Tweets
     useEffect(() => {
         if (authStatus) {
             appwriteService.getTweets()
@@ -25,10 +27,59 @@ function Home() {
         }
     }, []);
 
+    // Stories
+    useEffect(() => {
+        const currentDateTime = new Date(); // Creates a Date object in the local time zone, but internally uses UTC
+        const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+        const expiredStories = [];
+        const activeStories = [];
+
+        appwriteService.getStories()
+            .then(stories => {
+                if (stories) {
+                    const allStories = stories.documents;
+                    allStories.forEach((story) => {
+                        const storyUploadDateTime = new Date(story.timeStamp); // Converts the ISO timestamp to a Date object in UTC
+                        const timeDifference = currentDateTime - storyUploadDateTime; // Both are now in milliseconds, so comparison is accurate
+
+                        if (timeDifference >= twentyFourHoursInMilliseconds) { // Compares the difference in milliseconds
+                            expiredStories.push(story);
+                        } else {
+                            activeStories.push(story);
+                        }
+                    });
+                    setStories(activeStories);
+                    deleteExpiredStories(expiredStories);
+                }
+            })
+            .catch(e => console.log(e));
+    }, []);
+
+    const deleteExpiredStories = (expiredStories) => {
+        expiredStories.map(story => {
+            appwriteService.deleteStory(story.$id)
+                .then(console.log('story deleted'))
+                .catch(e => console.log(e));
+        })
+    }
+
     if (authStatus) {
         return loading ? <h1 className='text-white mt-[2rem] md:mt-[1rem]'>Loading...</h1>
             : tweets?.length > 0 ? (
                 <Container className='mt-[2rem] md:mt-[1rem]'>
+                    {stories.length > 0 &&
+                        (<div className='flex justify-center space-x-2'>
+                            <h1>Stories:</h1>
+                            {
+                                stories.map((story) => (
+                                    <div key={story.$id}>
+                                        <StoryCard {...story} />
+                                    </div>
+                                ))
+                            }
+                        </div>)
+                    }
                     {
                         tweets.map((tweet) => (
                             <div key={tweet.$id}>

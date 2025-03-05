@@ -13,6 +13,9 @@ import LikeBtn from "./LikeBtn";
 import UserHome from "./UserHome";
 import AllComments from "./AllComments";
 import AddComment from "./AddComment";
+import AddStory from "./AddStory";
+import StoryCard from "./StoryCard";
+import Story from "./Story";
 
 export {
     Header,
@@ -29,5 +32,8 @@ export {
     LikeBtn,
     UserHome,
     AllComments,
-    AddComment
+    AddComment,
+    AddStory,
+    StoryCard,
+    Story
 };

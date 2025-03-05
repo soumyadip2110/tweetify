@@ -31,6 +31,11 @@ function Header() {
             active: authStatus
         },
         {
+            name: 'Add Story',
+            slug: '/add-story',
+            active: authStatus
+        },
+        {
             name: 'My Tweets',
             slug: '/user-tweets',
             active: authStatus
