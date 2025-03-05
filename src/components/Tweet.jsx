@@ -83,11 +83,11 @@ function Tweet() {
                         />
 
                     )}
-                    <div className="border-b border-gray-700 px-6 py-1">
+                    <div className="border-b border-gray-700 px-6 py-1 my-2">
                         <h3 className="text-xl font-semibold break-words text-left">{tweet.content}</h3>
                     </div>
-                    <div className="px-2 py-0 flex items-center justify-between">
-                        <p className="text-sm text-gray-300 mt-1">{tweet.timestamp}</p>
+                    <div className="mt-2 px-2 py-0 flex items-center justify-between">
+                        <p className="text-sm text-gray-300">{tweet.timestamp}</p>
                         <div className='flex mt-1'>
                             {isAuthor && (
                                 <Button
