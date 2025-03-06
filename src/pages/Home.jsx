@@ -29,31 +29,33 @@ function Home() {
 
     // Stories
     useEffect(() => {
-        const currentDateTime = new Date(); // Creates a Date object in the local time zone, but internally uses UTC
-        const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        if (authStatus) {
+            const currentDateTime = new Date(); // Creates a Date object in the local time zone, but internally uses UTC
+            const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-        const expiredStories = [];
-        const activeStories = [];
+            const expiredStories = [];
+            const activeStories = [];
 
-        appwriteService.getStories()
-            .then(stories => {
-                if (stories) {
-                    const allStories = stories.documents;
-                    allStories.forEach((story) => {
-                        const storyUploadDateTime = new Date(story.timeStamp); // Converts the ISO timestamp to a Date object in UTC
-                        const timeDifference = currentDateTime - storyUploadDateTime; // Both are now in milliseconds, so comparison is accurate
+            appwriteService.getStories()
+                .then(stories => {
+                    if (stories) {
+                        const allStories = stories.documents;
+                        allStories.forEach((story) => {
+                            const storyUploadDateTime = new Date(story.timeStamp); // Converts the ISO timestamp to a Date object in UTC
+                            const timeDifference = currentDateTime - storyUploadDateTime; // Both are now in milliseconds, so comparison is accurate
 
-                        if (timeDifference >= twentyFourHoursInMilliseconds) { // Compares the difference in milliseconds
-                            expiredStories.push(story);
-                        } else {
-                            activeStories.push(story);
-                        }
-                    });
-                    setStories(activeStories);
-                    deleteExpiredStories(expiredStories);
-                }
-            })
-            .catch(e => console.log(e));
+                            if (timeDifference >= twentyFourHoursInMilliseconds) { // Compares the difference in milliseconds
+                                expiredStories.push(story);
+                            } else {
+                                activeStories.push(story);
+                            }
+                        });
+                        setStories(activeStories);
+                        deleteExpiredStories(expiredStories);
+                    }
+                })
+                .catch(e => console.log(e));
+        }
     }, []);
 
     const deleteExpiredStories = (expiredStories) => {
@@ -69,17 +71,20 @@ function Home() {
             : tweets?.length > 0 ? (
                 <Container className='mt-[2rem] md:mt-[1rem]'>
                     {stories.length > 0 &&
-                        (<div className='flex justify-center space-x-2'>
-                            <h1>Stories:</h1>
-                            {
-                                stories.map((story) => (
-                                    <div key={story.$id}>
-                                        <StoryCard {...story} />
-                                    </div>
-                                ))
-                            }
-                        </div>)
+                        (
+                            <div className="border-b border-gray-700 flex justify-start items-center space-x-2 overflow-x-auto mx-4 pb-4 scrollbar-hide">
+                                <h1 className="font-bold text-lg mx-2">Stories:</h1>
+                                <div className="flex space-x-4">
+                                    {stories.map((story) => (
+                                        <div key={story.$id}>
+                                            <StoryCard {...story} />
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )
                     }
+                    <h1 className='font-bold m-2 text-lg'>Tweets:</h1>
                     {
                         tweets.map((tweet) => (
                             <div key={tweet.$id}>

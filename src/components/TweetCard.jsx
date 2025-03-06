@@ -14,7 +14,7 @@ function TweetCard(tweet) {
     }, []);
 
     return (
-        <div className="text-left w-full sm:w-2/3 md:w-1/2 p-1 mx-auto rounded-md shadow-lg overflow-hidden my-6 border border-gray-600">
+        <div className="text-left w-full sm:w-2/3 md:w-1/2 p-1 mx-auto rounded-md shadow-lg overflow-hidden mb-6 border border-gray-700">
             <div className='px-1'>
                 <Link to={tweet.userName === userData.name ? '/user-tweets' : `/user/${tweet.userId}`}
                     className="font-semibold text-white text-sm mx-1"

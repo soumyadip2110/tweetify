@@ -36,7 +36,7 @@ function AddStory() {
     }
 
     return (
-        <div className="w-full max-w-lg mx-auto p-0 mt-2">
+        <div className="w-full max-w-lg mx-auto p-0 mt-[2rem] md:mt-[1rem] ">
             <form onSubmit={handleStory} className="space-y-1 bg-gray-600 px-4 py-1 pb-2 rounded-lg shadow-md">
                 <label className="text-md font-semibold text-gray-100">
                     Add content to your story:
@@ -54,7 +54,7 @@ function AddStory() {
                     <Button
                         type="submit"
                         disabled={postStoryMsg !== 'Post'}
-                        className="bg-blue-600 hover:bg-blue-700 text-sm text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className={`bg-blue-600 text-sm text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${content.length > 0 ? 'bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900' : 'bg-gray-400 cursor-not-allowed'}`}
                         px='2'
                         py='0'
                     >
