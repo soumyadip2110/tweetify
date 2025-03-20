@@ -58,7 +58,7 @@ export class Service {
         }
     }
 
-    async getUserTweets(userId){
+    async getUserTweets(userId) {
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
@@ -198,7 +198,7 @@ export class Service {
         }
     }
 
-    async deleteImage(fileId){
+    async deleteImage(fileId) {
         try {
             await this.bucket.deleteFile(
                 conf.appwriteBucketId,
@@ -211,7 +211,7 @@ export class Service {
         }
     }
 
-    getImagePreview(fileId){
+    getImagePreview(fileId) {
         return this.bucket.getFilePreview(
             conf.appwriteBucketId,
             fileId
@@ -219,7 +219,7 @@ export class Service {
     }
 
     // Comments
-    async createComment({ tweetId, userId, comment, userName, timeStamp}) {
+    async createComment({ tweetId, userId, comment, userName, timeStamp }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -267,7 +267,7 @@ export class Service {
     }
 
     // Stories
-    async createStory({ userId, userName, content, timeStamp, uploadDateTime }){
+    async createStory({ userId, userName, content, timeStamp, uploadDateTime }) {
         try {
             return await this.databases.createDocument(
                 conf.appwriteDatabaseId,
@@ -286,7 +286,7 @@ export class Service {
         }
     }
 
-    async getStories(){
+    async getStories() {
         try {
             return await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
@@ -297,7 +297,7 @@ export class Service {
         }
     }
 
-    async getStory(slug){
+    async getStory(slug) {
         try {
             return await this.databases.getDocument(
                 conf.appwriteDatabaseId,
@@ -309,7 +309,7 @@ export class Service {
         }
     }
 
-    async deleteStory(storyId){
+    async deleteStory(storyId) {
         try {
             await this.databases.deleteDocument(
                 conf.appwriteDatabaseId,
@@ -318,6 +318,104 @@ export class Service {
             )
         } catch (error) {
             console.log('Appwrite service :: deleteStory :: error', error);
+        }
+    }
+
+    // User Profile
+    async uploadProfilePicture(userId, file) {
+        try {
+            const image = await this.bucket.createFile(
+                conf.appwriteProfilePicturesBucketId,
+                ID.unique(),
+                file
+            );
+            if (image) {
+                this.addProfilePicture(userId, image.$id)
+                    .then(() => { return image })
+            }
+        } catch (error) {
+            console.log('Appwrite service :: uploadProfilePicture :: error', error);
+        }
+    }
+
+    async addProfilePicture(userId, profilePicture) {
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteUserProfileCollectionId,
+                ID.unique(),
+                {
+                    userId,
+                    profilePicture
+                }
+            );
+        } catch (error) {
+            console.log('Appwrite service :: addProfilePicture :: error', error);
+        }
+    }
+
+    async removeProfilePicture(userId) {
+        try {
+            const doc = await this.getFileId(userId)
+            if (doc){
+                await this.databases.deleteDocument(
+                    conf.appwriteDatabaseId,
+                    conf.appwriteUserProfileCollectionId,
+                    doc.$id
+                );
+            }
+            return true;
+        } catch (error) {
+            console.log('Appwrite service :: removeProfilePicture :: error', error);
+            return false;
+        }
+    }
+
+    async deleteProfilePicture(userId) {
+        try {
+            const fileId = await this.getFileId(userId);
+            if (fileId) {
+                await this.removeProfilePicture(userId);
+                await this.bucket.deleteFile(
+                    conf.appwriteProfilePicturesBucketId,
+                    fileId.documents[0].profilePicture
+                );
+            }
+            return true;
+        } catch (error) {
+            console.log('Appwrite service :: deleteProfilePicture :: error', error);
+            return false;
+        }
+    }
+
+    async getFileId(userId) {
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteUserProfileCollectionId,
+                [
+                    Query.equal('userId', [userId])
+                ]
+            )
+        } catch (error) {
+            console.log('Appwrite service :: getFileId :: error', error);
+            return false;
+        }
+    }
+
+    async getProfilePicturePreview(userId) {
+        try {
+            const data = await this.getFileId(userId)
+            const fileId = data.documents[0]?.profilePicture
+            if (fileId) {
+                return this.bucket.getFilePreview(
+                    conf.appwriteProfilePicturesBucketId,
+                    fileId
+                );
+            }
+        } catch (error) {
+            console.log('Appwrite service :: getProfilePicturePreview :: error', error);
+            return false;
         }
     }
 }
