@@ -361,7 +361,7 @@ export class Service {
                 await this.databases.deleteDocument(
                     conf.appwriteDatabaseId,
                     conf.appwriteUserProfileCollectionId,
-                    doc.$id
+                    doc.documents[0].$id
                 );
             }
             return true;

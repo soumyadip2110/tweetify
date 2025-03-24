@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Button, Container, TweetCard } from '../components';
 import appwriteService from '../appwrite/config'
-import { data, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 function UserHome() {
     const fileInputRef = useRef(null);
@@ -10,6 +10,7 @@ function UserHome() {
     const userData = useSelector(state => state.auth.userData);
     const [userTweets, setUserTweets] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [profilePictureLoading, setProfilePictureLoading] = useState(true);
     const userId = slug ? slug : userData.$id;
     const [message, setMessage] = useState('')
     const [notFoundMessage, setNotFoundMessage] = useState('')
@@ -43,6 +44,7 @@ function UserHome() {
         appwriteService.getProfilePicturePreview(userId)
             .then(data => setImageUrl(data))
             .catch(e => console.log(e))
+            .finally(() => setProfilePictureLoading(false))
     }, [slug, triggerProfilePictureChange])
 
     const handleUpdatePhoto = () => {
@@ -52,21 +54,31 @@ function UserHome() {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            if (imageUrl) appwriteService.deleteProfilePicture(userId)
+            setProfilePictureLoading(true)
             appwriteService.uploadProfilePicture(userId, file)
-                .then(() => setTriggerProfilePictureChange(prev => !prev))
+                .then(() => {
+                    if (imageUrl) {
+                        appwriteService.deleteProfilePicture(userId)
+                            .then(() => setTriggerProfilePictureChange(prev => !prev))
+                    } else {
+                        setTriggerProfilePictureChange(prev => !prev)
+                    }
+                })
+                .catch(e => console.log(e));
         }
     }
 
     return loading ? <h1 className='text-white mt-[2rem] md:mt-[1rem]'>Loading...</h1>
         : userTweets.length > 0 ? (
             <Container className='mt-[2rem] md:mt-[1rem]'>
-                <img
-                    src={imageUrl ? imageUrl : imageNotFoundUrl}
-                    alt="profile picture"
-                    width="100px"
-                    className="rounded-full mx-auto mt-2 shadow-lg border-4 border-gray-500 hover:scale-105 transition-transform duration-300 cursor-pointer object-cover"
-                />
+                {profilePictureLoading ? <h1 className='text-white mt-[2rem] md:mt-[1rem]'>...</h1>
+                    : <img
+                        src={imageUrl ? imageUrl : imageNotFoundUrl}
+                        alt="profile picture"
+                        width="100px"
+                        className="rounded-full mx-auto mt-2 shadow-lg border-4 border-gray-500 hover:scale-105 transition-transform duration-300 cursor-pointer object-cover"
+                    />
+                }
                 <Button
                     className={`text-xs m-2 ${slug ? 'hidden' : null}`}
                     px='1'
