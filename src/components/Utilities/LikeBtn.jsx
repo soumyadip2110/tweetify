@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from './index'
-import appwriteService from '../appwrite/config'
+import { Button } from '../index'
+import appwriteService from '../../appwrite/config'
 import { useSelector } from 'react-redux'
 
 function LikeBtn({ tweet, className='' }) {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import appwriteService from '../appwrite/config'
-import { Button, Input } from './index'
+import appwriteService from '../../appwrite/config'
+import { Button, Input } from '../index'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 

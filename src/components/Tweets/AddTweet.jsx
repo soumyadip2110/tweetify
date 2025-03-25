@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { Input, Button } from './index'
+import { Input, Button } from '../index'
 import { useSelector } from 'react-redux';
-import appwriteService from '../appwrite/config'
+import appwriteService from '../../appwrite/config'
 import { useNavigate } from 'react-router-dom';
 
 function AddTweet() {

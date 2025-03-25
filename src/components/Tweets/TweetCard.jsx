@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import LikeBtn from './LikeBtn'
-import appwriteService from '../appwrite/config'
+import { LikeBtn } from '../index'
+import appwriteService from '../../appwrite/config'
 import { useSelector } from 'react-redux'
 
 function TweetCard(tweet) {

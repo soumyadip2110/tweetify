@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import React from 'react'
-import Container from './container/Container'
+import { Container } from '../index'
 
 function StoryCard(story) {
     return (

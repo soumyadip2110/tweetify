@@ -32,11 +32,11 @@ function App() {
 			<Footer />
 		</div>
 	)
-	: (
-		<div className='text-white'>
-			Loading...
-		</div>
-	)
+		: (
+			<div className='text-white'>
+				Loading...
+			</div>
+		)
 }
 
 export default App

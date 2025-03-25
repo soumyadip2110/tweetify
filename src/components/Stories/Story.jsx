@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import appwriteService from '../appwrite/config'
+import appwriteService from '../../appwrite/config'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Container, Button } from './index';
+import { Container, Button } from '../index';
 import { useSelector } from 'react-redux';
 
 function Story() {

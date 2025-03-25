@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import appwriteService from '../appwrite/config'
-import { Button, Container } from './index'
+import appwriteService from '../../appwrite/config'
+import { Button, Container } from '../index'
 import { useSelector } from 'react-redux';
 
 function Comments({ comments, deleteComment }) {
