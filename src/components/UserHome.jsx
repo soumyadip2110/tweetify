@@ -6,17 +6,21 @@ import { useParams } from 'react-router-dom';
 
 function UserHome() {
     const fileInputRef = useRef(null);
-    const { slug } = useParams();
     const userData = useSelector(state => state.auth.userData);
-    const [userTweets, setUserTweets] = useState([]);
+    const imageNotFoundUrl = 'https://www.shutterstock.com/image-vector/image-not-found-grayscale-photo-260nw-1737334631.jpg';
+    const { slug } = useParams();
+    const userId = slug ? slug : userData.$id;
+
     const [loading, setLoading] = useState(true);
     const [profilePictureLoading, setProfilePictureLoading] = useState(true);
-    const userId = slug ? slug : userData.$id;
-    const [message, setMessage] = useState('')
-    const [notFoundMessage, setNotFoundMessage] = useState('')
-    const [imageUrl, setImageUrl] = useState('https://www.shutterstock.com/image-vector/image-not-found-grayscale-photo-260nw-1737334631.jpg');
-    const [triggerProfilePictureChange, setTriggerProfilePictureChange] = useState(false);
+    const [userTweets, setUserTweets] = useState([]);
+    const [message, setMessage] = useState('');
+    const [notFoundMessage, setNotFoundMessage] = useState('');
+    const [imageUrl, setImageUrl] = useState(imageNotFoundUrl);
     const [isImageOpen, setIsImageOpen] = useState(false);
+    const [triggerProfilePictureChange, setTriggerProfilePictureChange] = useState(false);
+    const [uploading, setUploading] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
         setLoading(true);
@@ -41,16 +45,31 @@ function UserHome() {
     }, [slug]);
 
     useEffect(() => {
+        setProfilePictureLoading(true);
         appwriteService.getProfilePicturePreview(userId)
             .then(data => {
                 if (data) setImageUrl(data)
+                else setImageUrl(imageNotFoundUrl);
             })
             .catch(e => console.log(e))
-            .finally(() => setProfilePictureLoading(false))
+            .finally(() => setProfilePictureLoading(false));
     }, [slug, triggerProfilePictureChange])
 
     const handleUpdatePhoto = () => {
+        setUploading(true);
         fileInputRef.current.click();
+    }
+
+    const handleDeletePhoto = () => {
+        setDeleting(true);
+        setProfilePictureLoading(true)
+        appwriteService.deleteProfilePicture(userId)
+            .then(() => setImageUrl(imageNotFoundUrl))
+            .catch(e => console.log(e))
+            .finally(() => {
+                setProfilePictureLoading(false);
+                setDeleting(false);
+            });
     }
 
     const handleFileChange = (e) => {
@@ -59,14 +78,15 @@ function UserHome() {
             setProfilePictureLoading(true)
             appwriteService.uploadProfilePicture(userId, file)
                 .then(() => {
-                    if (imageUrl) {
+                    if (imageUrl !== imageNotFoundUrl) {
                         appwriteService.deleteProfilePicture(userId)
                             .then(() => setTriggerProfilePictureChange(prev => !prev))
                     } else {
                         setTriggerProfilePictureChange(prev => !prev)
                     }
                 })
-                .catch(e => console.log(e));
+                .catch(e => console.log(e))
+                .finally(() => setUploading(false));
         }
     }
 
@@ -112,11 +132,22 @@ function UserHome() {
                 )}
                 <Button
                     className={`text-xs m-2 ${slug ? 'hidden' : null}`}
+                    disabled={uploading}
                     px='1'
                     py='1'
                     onClick={handleUpdatePhoto}
                 >
                     update photo
+                </Button>
+                <Button
+                    className={`text-xs m-2 ${(slug || (imageUrl === imageNotFoundUrl)) ? 'hidden' : null}`}
+                    disabled={deleting}
+                    px='1'
+                    py='1'
+                    bgColor='bg-red-700'
+                    onClick={handleDeletePhoto}
+                >
+                    Delete
                 </Button>
                 <input
                     type="file"

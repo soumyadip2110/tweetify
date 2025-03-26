@@ -330,8 +330,8 @@ export class Service {
                 file
             );
             if (image) {
-                this.addProfilePicture(userId, image.$id)
-                    .then(() => { return image })
+                await this.addProfilePicture(userId, image.$id)
+                return image;
             }
         } catch (error) {
             console.log('Appwrite service :: uploadProfilePicture :: error', error);
@@ -390,13 +390,15 @@ export class Service {
 
     async getFileId(userId) {
         try {
-            return await this.databases.listDocuments(
+            const doc = await this.databases.listDocuments(
                 conf.appwriteDatabaseId,
                 conf.appwriteUserProfileCollectionId,
                 [
                     Query.equal('userId', [userId])
                 ]
             )
+            if (doc) return doc;
+            return null;
         } catch (error) {
             console.log('Appwrite service :: getFileId :: error', error);
             return false;
