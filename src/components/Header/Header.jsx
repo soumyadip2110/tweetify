@@ -50,7 +50,7 @@ function Header() {
     useEffect(() => {
         if (authStatus && userData) {
             setProfilePictureLoading(true);
-            appwriteService.getProfilePicturePreview(userData.$id)
+            appwriteService.getProfilePicturePreview(userData?.$id)
                 .then(data => {
                     if (data) setImageUrl(data)
                     else setImageUrl(imageNotFoundUrl);
