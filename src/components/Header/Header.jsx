@@ -48,15 +48,17 @@ function Header() {
     ];
 
     useEffect(() => {
-        setProfilePictureLoading(true);
-        appwriteService.getProfilePicturePreview(userData.$id)
-            .then(data => {
-                if (data) setImageUrl(data)
-                else setImageUrl(imageNotFoundUrl);
-            })
-            .catch(e => console.log(e))
-            .finally(() => setProfilePictureLoading(false));
-    }, [])
+        if (authStatus && userData) {
+            setProfilePictureLoading(true);
+            appwriteService.getProfilePicturePreview(userData.$id)
+                .then(data => {
+                    if (data) setImageUrl(data)
+                    else setImageUrl(imageNotFoundUrl);
+                })
+                .catch(e => console.log(e))
+                .finally(() => setProfilePictureLoading(false));
+        }
+    }, [authStatus])
 
     return (
         <header className='py-1 m-0 top-0 sticky w-full bg-black drop-shadow-[0px_1px_2px_rgba(255,255,255,1)]'>
