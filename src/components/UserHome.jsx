@@ -19,7 +19,6 @@ function UserHome() {
     const [imageUrl, setImageUrl] = useState(imageNotFoundUrl);
     const [isImageOpen, setIsImageOpen] = useState(false);
     const [triggerProfilePictureChange, setTriggerProfilePictureChange] = useState(false);
-    const [uploading, setUploading] = useState(false);
     const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
@@ -56,7 +55,6 @@ function UserHome() {
     }, [slug, triggerProfilePictureChange])
 
     const handleUpdatePhoto = () => {
-        setUploading(true);
         fileInputRef.current.click();
     }
 
@@ -85,8 +83,7 @@ function UserHome() {
                         setTriggerProfilePictureChange(prev => !prev)
                     }
                 })
-                .catch(e => console.log(e))
-                .finally(() => setUploading(false));
+                .catch(e => console.log(e));
         }
     }
 
@@ -132,7 +129,6 @@ function UserHome() {
                 )}
                 <Button
                     className={`text-xs m-2 ${slug ? 'hidden' : null}`}
-                    disabled={uploading}
                     px='1'
                     py='1'
                     onClick={handleUpdatePhoto}
