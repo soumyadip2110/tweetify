@@ -6,20 +6,44 @@ import { useSelector } from 'react-redux'
 
 function TweetCard(tweet) {
     const userData = useSelector(state => state.auth.userData)
+    const imageNotFoundUrl = 'https://www.shutterstock.com/image-vector/image-not-found-grayscale-photo-260nw-1737334631.jpg';
+
     const [commentCount, setCommentCount] = useState(0);
+    const [profilePictureLoading, setProfilePictureLoading] = useState(true);
+    const [imageUrl, setImageUrl] = useState(imageNotFoundUrl);
+
     useEffect(() => {
         appwriteService.getTweetComments(tweet.$id)
             .then(allComments => setCommentCount(allComments.documents.length))
             .catch(err => console.log(err));
     }, []);
 
+    useEffect(() => {
+        setProfilePictureLoading(true);
+        appwriteService.getProfilePicturePreview(tweet.userId)
+            .then(data => {
+                if (data) setImageUrl(data)
+                else setImageUrl(imageNotFoundUrl);
+            })
+            .catch(e => console.log(e))
+            .finally(() => setProfilePictureLoading(false));
+    }, [])
+
     return (
         <div className="text-left w-full sm:w-2/3 md:w-1/2 p-1 mx-auto rounded-md shadow-lg overflow-hidden mb-6 border border-gray-700">
             <div className='px-1'>
                 <Link to={tweet.userName === userData.name ? '/user-tweets' : `/user/${tweet.userId}`}
-                    className="font-semibold text-white text-sm mx-1"
+                    className="font-semibold text-white text-sm mx-1 flex items-center"
                 >
-                    {tweet.userName ? tweet.userName : 'Username not found!'}
+                    {profilePictureLoading ? <h1 className='text-white mx-2'>...</h1>
+                        : <img
+                            src={imageUrl}
+                            alt="profile picture"
+                            width="30px"
+                            className="rounded-full mx-1 mb-1 shadow-lg border-2 border-white hover:scale-105 transition-transform duration-300 cursor-pointer object-cover"
+                        />
+                    }
+                    <h1>{tweet.userName ? tweet.userName : 'Username not found!'}</h1>
                 </Link>
             </div>
             <Link to={`/tweet/${tweet.$id}`}>

@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container } from '../index'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import LogoutBtn from './LogoutBtn';
+import appwriteService from '../../appwrite/config'
 
 function Header() {
     const authStatus = useSelector(state => state.auth.status);
     const userData = useSelector(state => state.auth.userData);
     const navigate = useNavigate();
+
+    const imageNotFoundUrl = 'https://www.shutterstock.com/image-vector/image-not-found-grayscale-photo-260nw-1737334631.jpg';
+    const [profilePictureLoading, setProfilePictureLoading] = useState(true);
+    const [imageUrl, setImageUrl] = useState(imageNotFoundUrl);
 
     const navItems = [
         {
@@ -42,6 +47,17 @@ function Header() {
         }
     ];
 
+    useEffect(() => {
+        setProfilePictureLoading(true);
+        appwriteService.getProfilePicturePreview(userData.$id)
+            .then(data => {
+                if (data) setImageUrl(data)
+                else setImageUrl(imageNotFoundUrl);
+            })
+            .catch(e => console.log(e))
+            .finally(() => setProfilePictureLoading(false));
+    }, [])
+
     return (
         <header className='py-1 m-0 top-0 sticky w-full bg-black drop-shadow-[0px_1px_2px_rgba(255,255,255,1)]'>
             <Container>
@@ -51,9 +67,18 @@ function Header() {
                             Tweetify
                         </Link>
                     </div>
-                    {authStatus &&(
-                        <div className='mx-1 md:mx-5 my-auto font-bold'>
-                            Hello, {userData.name}!
+                    {authStatus && (
+                        <div className='mx-1 md:mx-5 my-auto font-bold flex items-center'>
+                            <h1>Hello, {userData.name}!</h1>
+                            {profilePictureLoading ? <h1 className='text-white mx-2'>...</h1>
+                                : <img
+                                    src={imageUrl}
+                                    alt="profile picture"
+                                    width="50px"
+                                    className="rounded-full mx-2 shadow-lg border-2 border-white hover:scale-105 transition-transform duration-300 cursor-pointer object-cover"
+                                    onClick={() => navigate('/user-tweets')}
+                                />
+                            }
                         </div>
                     )}
                     <ul className='flex ml-auto'>

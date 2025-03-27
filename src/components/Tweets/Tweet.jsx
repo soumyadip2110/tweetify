@@ -11,6 +11,10 @@ function Tweet() {
     const userData = useSelector(state => state.auth.userData);
     const isAuthor = tweet && userData ? tweet.userId === userData.$id : false;
     const navigate = useNavigate()
+    const imageNotFoundUrl = 'https://www.shutterstock.com/image-vector/image-not-found-grayscale-photo-260nw-1737334631.jpg';
+
+    const [profilePictureLoading, setProfilePictureLoading] = useState(true);
+    const [imageUrl, setImageUrl] = useState(imageNotFoundUrl);
     const [isImageOpen, setIsImageOpen] = useState(false);
     const [comments, setComments] = useState([]);
     const [commentLoading, setCommentLoading] = useState(true);
@@ -18,7 +22,10 @@ function Tweet() {
 
     useEffect(() => {
         appwriteService.getTweet(slug)
-            .then((tweet) => setTweet(tweet))
+            .then((tweet) => {
+                setTweet(tweet);
+                getProfilePicture(tweet.userId);
+            })
             .catch((err) => console.log(err))
             .finally(() => setLoading(false));
 
@@ -27,6 +34,17 @@ function Tweet() {
             .catch(err => console.log(err))
             .finally(() => setCommentLoading(false));
     }, [slug, triggerCommentDelete]);
+
+    const getProfilePicture = (userId) => {
+        setProfilePictureLoading(true);
+        appwriteService.getProfilePicturePreview(userId)
+            .then(data => {
+                if (data) setImageUrl(data)
+                else setImageUrl(imageNotFoundUrl);
+            })
+            .catch(e => console.log(e))
+            .finally(() => setProfilePictureLoading(false));
+    }
 
     const addComment = (newComment) => {
         setComments(prevComment => [newComment, ...prevComment])
@@ -70,9 +88,17 @@ function Tweet() {
                 <div className="p-3 pt-1 text-white rounded-lg shadow-lg overflow-hidden">
                     <div
                         onClick={() => navigate(isAuthor ? '/user-tweets' : `/user/${tweet.userId}`)}
-                        className="px-2 py-1 text-left font-semibold text-white text-sm mx-0 mb-2 border-b border-gray-700 cursor-pointer"
+                        className="flex items-center px-2 py-1 text-left font-semibold text-white text-sm mx-0 mb-2 border-b border-gray-700 cursor-pointer"
                     >
-                        {tweet.userName ? tweet.userName : 'Username not found!'}
+                        {profilePictureLoading ? <h1 className='text-white mx-2'>...</h1>
+                            : <img
+                                src={imageUrl}
+                                alt="profile picture"
+                                width="30px"
+                                className="rounded-full mx-1 mb-1 shadow-lg border-2 border-white hover:scale-105 transition-transform duration-300 cursor-pointer object-cover"
+                            />
+                        }
+                        <h1>{tweet.userName ? tweet.userName : 'Username not found!'}</h1>
                     </div>
                     {tweet.featuredImage && (
                         <img
