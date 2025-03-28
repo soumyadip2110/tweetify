@@ -24,12 +24,12 @@ function Login() {
                 const userData = await authService.getCurrentUser();
                 if (userData) {
                     dispatch(storeLogin(userData));
-                    setLoading(false);
                     navigate('/');
                 }
             } else {
                 alert('Wrong Email or Password')
             }
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
