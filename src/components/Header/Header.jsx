@@ -61,7 +61,7 @@ function Header() {
     }, [authStatus])
 
     return (
-        <header className='py-1 m-0 top-0 sticky w-full bg-black drop-shadow-[0px_1px_2px_rgba(255,255,255,1)]'>
+        <header className='py-1 m-0 top-0 sticky w-full bg-gray-900 drop-shadow-[0px_1px_2px_rgba(255,255,255,1)]'>
             <Container>
                 <nav className='flex text-xs md:text-lg'>
                     <div className='mx-1 md:mx-5 my-auto font-bold bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 bg-clip-text text-transparent duration-200'>
@@ -91,7 +91,7 @@ function Header() {
                                         (
                                             <svg
                                                 onClick={() => navigate(item.slug)}
-                                                className='cursor-pointer m-1 md:m-4'
+                                                className='cursor-pointer m-1 md:m-4 hover:scale-110 duration-200'
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 height='20px'
                                                 fill='#fff'
@@ -118,7 +118,7 @@ function Header() {
                                         (
                                             <button
                                                 onClick={() => navigate(item.slug)}
-                                                className='inline-bock mx-1 my-1 px-1 md:px-2 py-1 duration-200 font-bold bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 bg-clip-text text-transparent hover:text-white'
+                                                className='inline-bock mx-1 my-1 px-1 md:px-2 py-1 duration-200 font-bold hover:text-gray-400'
                                             >
                                                 {item.name}
                                             </button>
