@@ -8,7 +8,7 @@ const conf = {
     appwriteStoriesCollectionId: String(import.meta.env.VITE_APPWRITE_STORIES_COLLECTION_ID),
     appwriteUserProfileCollectionId: String(import.meta.env.VITE_APPWRITE_USER_PROFILE_COLLECTION_ID),
     appwriteBucketId: String(import.meta.env.VITE_APPWRITE_BUCKET_ID),
-    appwriteProfilePicturesBucketId: String(import.meta.env.VITE_APPWRITE_PROFILE_PICTURES_BUCKET_ID)
+    // appwriteProfilePicturesBucketId: String(import.meta.env.VITE_APPWRITE_PROFILE_PICTURES_BUCKET_ID)
 }
 
 export default conf;

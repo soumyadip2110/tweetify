@@ -325,7 +325,7 @@ export class Service {
     async uploadProfilePicture(userId, file) {
         try {
             const image = await this.bucket.createFile(
-                conf.appwriteProfilePicturesBucketId,
+                conf.appwriteBucketId,
                 ID.unique(),
                 file
             );
@@ -377,7 +377,7 @@ export class Service {
             if (fileId) {
                 await this.removeProfilePicture(userId);
                 await this.bucket.deleteFile(
-                    conf.appwriteProfilePicturesBucketId,
+                    conf.appwriteBucketId,
                     fileId.documents[0].profilePicture
                 );
             }
@@ -411,7 +411,7 @@ export class Service {
             const fileId = data.documents[0]?.profilePicture
             if (fileId) {
                 return this.bucket.getFilePreview(
-                    conf.appwriteProfilePicturesBucketId,
+                    conf.appwriteBucketId,
                     fileId
                 );
             }
