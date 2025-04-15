@@ -71,19 +71,19 @@ function Header() {
                     </div>
                     {authStatus && (
                         <div className='mx-1 md:mx-5 my-auto font-bold flex items-center'>
-                            <h1>Hello, {userData.name}!</h1>
+                            <h1>Hi, {userData.name}!</h1>
                             {profilePictureLoading ? <h1 className='text-white mx-2'>...</h1>
                                 : <img
                                     src={imageUrl}
                                     alt="profile picture"
-                                    width="50px"
+                                    width="40px"
                                     className="rounded-full mx-2 shadow-lg border-2 border-white hover:scale-105 transition-transform duration-300 cursor-pointer object-cover"
                                     onClick={() => navigate('/user-tweets')}
                                 />
                             }
                         </div>
                     )}
-                    <ul className='flex ml-auto'>
+                    <ul className='flex ml-auto items-center'>
                         {navItems.map(item =>
                             item.active ? (
                                 <li key={item.name} className='flex items-center'>
