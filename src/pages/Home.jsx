@@ -84,7 +84,6 @@ function Home() {
                             </div>
                         )
                     }
-                    <h1>!!! Some images are not visible due to sudden premium plan policy by the appwrite team (external backend service). this issue will be resolved soon</h1>
                     <h1 className='font-bold m-2 text-lg'>Tweets:</h1>
                     {
                         tweets.map((tweet) => (
