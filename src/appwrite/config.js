@@ -212,7 +212,7 @@ export class Service {
     }
 
     getImagePreview(fileId) {
-        return this.bucket.getFilePreview(
+        return this.bucket.getFileView(
             conf.appwriteBucketId,
             fileId
         );
@@ -410,7 +410,7 @@ export class Service {
             const data = await this.getFileId(userId)
             const fileId = data.documents[0]?.profilePicture
             if (fileId) {
-                return this.bucket.getFilePreview(
+                return this.bucket.getFileView(
                     conf.appwriteBucketId,
                     fileId
                 );
