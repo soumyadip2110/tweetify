@@ -28,8 +28,9 @@ function UserHome() {
                 setUserTweets(tweets.documents.reverse())
                 if (tweets?.documents.length > 0) {
                     setMessage(
-                        !slug ? `Hi ${userData.name}, here are all of your posts:`
-                            : `${tweets.documents[0].userName}'s posts`
+                        tweets.documents[0].userName
+                        // !slug ? `Hi ${userData.name}, here are all of your posts:`
+                        //     : `${tweets.documents[0].userName}'s posts`
                     )
                 } else {
                     setNotFoundMessage(!slug ? "You haven't posted any tweets yet!" : 'No tweets available')
