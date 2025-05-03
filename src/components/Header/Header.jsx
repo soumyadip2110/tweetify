@@ -118,7 +118,7 @@ function Header() {
                                         (
                                             <button
                                                 onClick={() => navigate(item.slug)}
-                                                className='cursor-pointer m-1 md:m-4 hover:scale-110 duration-200'
+                                                className='group cursor-pointer m-1 md:m-4 hover:scale-110 duration-200'
                                             >
                                                 <svg
                                                     onClick={() => navigate(item.slug)}
@@ -154,6 +154,11 @@ function Header() {
                                                         strokeLinecap="round"
                                                     />
                                                 </svg>
+                                                <span
+                                                    className="absolute -translate-y-10 -translate-x-1/2 mb-2 w-max text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                                >
+                                                    add story
+                                                </span>
                                             </button>
                                         )
                                     }
