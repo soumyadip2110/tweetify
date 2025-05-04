@@ -16,6 +16,7 @@ import AddComment from "./Comments/AddComment";
 import AddStory from "./Stories/AddStory";
 import StoryCard from "./Stories/StoryCard";
 import Story from "./Stories/Story";
+import Tooltip from "./Utilities/Tooltip";
 
 export {
     Header,
@@ -35,5 +36,6 @@ export {
     AddComment,
     AddStory,
     StoryCard,
-    Story
+    Story,
+    Tooltip
 };

@@ -29,6 +29,12 @@ function TweetCard(tweet) {
             .finally(() => setProfilePictureLoading(false));
     }, [])
 
+    // : <img
+    //     src={imageUrl}
+    //     alt="profile picture"
+    //     width="30px"
+    //     className="rounded-full mx-1 mb-1 shadow-lg border-2 border-white hover:scale-105 transition-transform duration-300 cursor-pointer object-cover"
+    // />
     return (
         <div className="text-left w-full sm:w-2/3 md:w-1/2 p-1 mx-auto rounded-md shadow-lg overflow-hidden mb-6 border border-gray-700">
             <div className='px-1'>
@@ -36,12 +42,28 @@ function TweetCard(tweet) {
                     className="font-semibold text-white text-sm mx-1 flex items-center"
                 >
                     {profilePictureLoading ? <h1 className='text-white mx-2'>...</h1>
-                        : <img
-                            src={imageUrl}
-                            alt="profile picture"
-                            width="30px"
-                            className="rounded-full mx-1 mb-1 shadow-lg border-2 border-white hover:scale-105 transition-transform duration-300 cursor-pointer object-cover"
-                        />
+                        :
+                        (imageUrl === imageNotFoundUrl ?
+                            (
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 448 512"
+                                    height='25px'
+                                    fill='#fff'
+                                    className='rounded-full p-1 mx-1 mb-1 shadow-lg border-2 border-white hover:scale-105 transition-transform duration-300'
+                                >
+                                    <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z" />
+                                </svg>
+                            ) :
+                            (
+                                <img
+                                    src={imageUrl}
+                                    alt="profile picture"
+                                    width="30px"
+                                    className="rounded-full mx-1 mb-1 shadow-lg border-2 border-white hover:scale-105 transition-transform duration-300 cursor-pointer object-cover"
+                                />
+                            )
+                        )
                     }
                     <h1>{tweet.userName ? tweet.userName : 'Username not found!'}</h1>
                 </Link>
